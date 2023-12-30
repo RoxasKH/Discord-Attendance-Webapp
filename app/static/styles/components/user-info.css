@@ -1,0 +1,92 @@
+@import '../buttons.css';
+@import '../utils.css';
+@import '../selection.css';
+
+#userinfo {
+  position: fixed;
+  background-color: var(--box-bg);
+  width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 2;
+  right: 0;
+  margin-top: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  font-size: 15px;
+  padding: 20px;
+}
+
+#userinfo > div, #userinfo > img {
+  margin: 10px;
+}
+
+#logout {
+  margin: 10px;
+}
+
+#user_avatar_big {
+  border: 5px solid var(--default-color);
+}
+
+#name, #discriminator {
+  display: inline-block;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+#name {
+  font-weight: bold;
+}
+
+#discriminator {
+  color: var(--default-color);
+}
+
+.info {
+  margin-bottom: 10px;
+}
+
+.key {
+  font-weight: bold;
+  filter: brightness(50%);
+  font-size: 13px;
+}
+
+#other_infos {
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.bounce-in {
+  animation: bounce-in 0.5s ease;
+}
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: translateX(1000px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-30px);
+  }
+  80% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+.bounce-out {
+  animation: bounce-out 0.5s ease normal forwards;
+}
+@keyframes bounce-out {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(1000px);
+  }
+}

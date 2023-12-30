@@ -1,0 +1,19 @@
+@import '../utils.css';
+@import '../ionicons.css';
+
+.cursor {
+  position: fixed; /* Using fixed instead of absolute avoid triggering overflow */
+  width: 25px;
+  height: 25px;
+  top: 0;
+  left: 0;
+  color: var(--cursor);
+  pointer-events: none; /* Makes it so that you can click elements under it */
+  z-index: 1;
+}
+
+.cursor ion-icon {
+  transform: translateY(-100%);
+  -webkit-filter: drop-shadow( 2px 2px 1px rgba(0, 0, 0, .5));
+  filter: drop-shadow( 2px 2px 1px rgba(0, 0, 0, .5));
+}

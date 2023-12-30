@@ -1,0 +1,21 @@
+button {
+  padding: 10px 20px 10px 20px;
+  font-size: 20px;
+  background-color: var(--btn-color);
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  color: var(--btn-text);
+}
+
+button:hover {
+  filter: brightness(120%);
+  color: var(--hover);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.small-button {
+  padding: 5px 15px;
+  font-size: 15px;
+}

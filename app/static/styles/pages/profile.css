@@ -1,0 +1,26 @@
+@import '../buttons.css';
+@import '../ionicons.css';
+@import '../utils.css';
+
+@import '../urls.css';
+@import '../selection.css';
+
+.content {
+  width: 1350px;
+  height: 80vh;
+  padding: 30px;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+.footer {
+  background-color: var(--box-bg);
+  text-align: right;
+  font-size: 13px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 30px 10px 30px;
+  box-sizing: border-box;
+}

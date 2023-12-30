@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pages/profile.css') }}">
+{% endblock %}
+
+{% block header %}
+  <navigation-bar></navigation-bar>
+{% endblock %}
+
+{% block content %}
+
+  <message-component></message-component>
+
+  <attendance-table></attendance-table>
+
+  <tool-bar></tool-bar>
+
+  <dialog-component></dialog-component>
+
+  <custom-cursor></custom-cursor>
+
+{% endblock %}
+
+{% block footer %}
+  &copy 2023 - <a href="https://github.com/RoxasKH" target="_blank">RoxasKH</a>
+{% endblock %}

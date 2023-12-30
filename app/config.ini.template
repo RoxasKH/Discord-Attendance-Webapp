@@ -1,0 +1,16 @@
+### MongoDB API Database Informations
+
+# URL of the mMogoDB API
+DB_URL_ENDPOINT = 
+# Name of the datasource
+DB_DATA_SOURCE_NAME = 
+# Name of the DB for attendance
+DB_DATABASE_NAME = 
+# Attendance collection name
+DB_ATTENDANCE_COLLECTION = 
+# Authorization collection name
+DB_AUTHORIZATION_COLLECTION = 
+
+
+# URL where the flask webapp is hosted at
+HOST_APP_URL = 
