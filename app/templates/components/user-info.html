@@ -1,0 +1,21 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/components/user-info.css') }}">
+
+<div id="userinfo" class="hide bounce-out">
+  <img src="" id="user_avatar_big" class="avatar">
+  <div id="fullname">
+    <div id="name"></div>
+    <div id="discriminator"></div>
+  </div>
+  <div id="other_infos">
+    <div class="info">
+      <div class="key">nickname: </div>
+      <div id="nickname"></div>
+    </div>
+    <div class="info">
+      <div class="key">joined at: </div>
+      <div id="joined_at"></div>
+    </div>
+  </div>
+    
+  <button type="submit" id="logout">Logout</button>
+</div>

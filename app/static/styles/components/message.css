@@ -1,0 +1,67 @@
+@import '../ionicons.css';
+
+#message-container {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 2;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  width: 65%;
+  margin: auto;
+  border-radius: 10px;
+  padding: 20px;
+  transition: 0.2s;
+  color: var(--msg-light-text);
+}
+
+#message {
+  width: 80%;
+  display: inline-block;
+  padding-left: 5px;
+}
+
+#message div {
+  overflow-wrap: break-word;
+}
+
+#close {
+  float: right;
+  border-radius: 5px;
+  width: 31px;
+  height: 31px;
+  padding: 3px 2px;
+  box-sizing: border-box;
+}
+
+#close:hover {
+  cursor: pointer;
+  backdrop-filter: brightness(90%);
+}
+
+.fadeOut {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 3000ms, opacity 3000ms;
+}
+.fadeIn {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 3000ms, opacity 3000ms;
+}
+
+.error {
+  background-color: var(--msg-error);
+}
+
+.success {
+  background-color: var(--msg-success);
+}
+
+.warning {
+  background-color: var(--msg-warning);
+}
+.warning div {
+  color: var(--msg-dark-text);
+}

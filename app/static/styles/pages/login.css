@@ -1,0 +1,75 @@
+@import '../buttons.css';
+
+.column {
+	z-index: 0;
+	height: 100%;
+	width: 50%;
+	position: fixed;
+	top: 0;
+	overflow-x: hidden;
+}
+
+.column:nth-child(odd) {
+	background-color: var(--color-highlight);
+	width: 50%;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#container {
+	box-sizing: border-box;
+	position: absolute;
+	overflow: hidden;
+	width: 50%;
+	top: 50%;
+	left: 38%;
+	transform: translate(-50%, -50%);
+	z-index: 1;
+	background-color: var(--box-bg);
+	border-radius: 20px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+#container > div {
+	position: relative;
+	float: left;
+	width: 50%;
+	height: 30vw;
+}
+
+#logo {
+	background-image: url('../../images/logo.png');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-clip: padding-box;
+}
+
+#login-column {
+	box-sizing: border-box;
+	padding: 5%;
+}
+
+#login {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 60%;
+	box-sizing: border-box;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	background-color: var(--default-color);
+	border-radius: 20px;
+}
+
+#discord {
+	width: 20%;
+	margin: 20px;
+}
+
+#login > button {
+	padding: 10px 30px 10px 30px;
+}

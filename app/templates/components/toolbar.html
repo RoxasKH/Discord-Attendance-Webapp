@@ -1,0 +1,20 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/components/toolbar.css') }}">
+
+<div id="options" class="fade-in-up">
+
+  <label for="month">Month:</label>
+  <div class="select">
+    <select name="month" id="month"></select> 
+  </div>
+
+  <div id="separator"></div>
+
+  <brush-tool class="brush tool"></brush-tool>
+
+  <pencil-tool class="pencil tool"></pencil-tool>
+
+  <div id="clear" class="tool-button"><ion-icon name="trash-sharp"></ion-icon></div>
+
+  <div id="reload" class="tool-button"><ion-icon name="reload-sharp"></ion-icon></div>
+
+</div>

@@ -1,0 +1,74 @@
+@import '../utils.css';
+@import '../selection.css';
+
+.container {
+  height: 60%;
+}
+
+table {
+  max-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+tr:first-child, tr:nth-child(2) {
+  z-index: 1;
+  background-color: var(--box-bg);
+}
+
+tr:first-child {
+  position: sticky;
+  top: 0;
+}
+
+tr:nth-child(2) {
+  position: sticky;
+  top: 30px;
+  box-shadow: 0 5px 1px 0 rgba(0,0,0,0.2);
+}
+
+table {
+  font-size: 15px;
+  display: block;
+  border-spacing: 0;
+  border-collapse: separate;
+  border-spacing: 5px;
+}
+
+tr, th, td {
+  transition: 0.2s;
+}
+
+th, td {
+  padding: 5px 0;
+  border-radius: 10%;
+  background-color: inherit;
+  vertical-align: top;
+  box-sizing: border-box; 
+}
+
+td:hover {
+  transform: scale(130%);
+  box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
+}
+
+td:active {
+  box-shadow: 0 0 2px 2px rgba(255,255,255,0.5);
+}
+
+th {
+  font-size: 15px;
+}
+
+tr:first-child th:not(:first-child):hover {
+  background-color: var(--color-highlight);
+  border-radius: 20%;
+}
+
+tr:first-child th {
+  font-family: monospace, monospace;
+}
+
+tr:not(:first-child) th {
+  padding-right: 20px;
+}

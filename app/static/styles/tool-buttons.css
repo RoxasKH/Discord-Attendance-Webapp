@@ -1,0 +1,30 @@
+.tool-button {
+  display: inline-block;
+  padding: 10px;
+  text-transform: uppercase;
+  border: 2px solid var(--default-color);
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: 10px;
+  line-height: 25px;
+}
+
+.tool-button ion-icon {
+  margin: 0 0 -5px 0;
+}
+
+.tool-button:active {
+  background-color: var(--default-color);
+}
+
+.tool-button:hover {
+  background-color: var(--default-color);
+}
+
+input[type="checkbox"], input[type="radio"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + span {
+  background-color: var(--default-color);
+}

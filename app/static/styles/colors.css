@@ -1,0 +1,22 @@
+/* Default colors: https://www.w3schools.com/tags/ref_colornames.asp */
+
+:root {
+  --bg: #121212;
+  --box-bg: #2D2D2D;
+  --text: #D3DDDF;
+  --selection: blueviolet;
+  --selection-text: white;
+  --hover: #F2F2F2;
+  --color-highlight: blueviolet;
+  --default-color: #555555;
+  --cursor: #FFFFFF;
+  --loading-ring: #FFFFFF;
+  --btn-color: blueviolet;
+  --btn-text: #FFFFFF;
+  --msg-light-text: #FFFFFF;
+  --msg-dark-text: #121212;
+  --msg-error: #ED4245;
+  --msg-success: #56F287;
+  --msg-warning: #FEE75C;
+  --pencil-color-container: #2E2E2E;
+}

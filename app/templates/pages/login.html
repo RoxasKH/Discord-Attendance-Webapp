@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block styles %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/pages/login.css') }}">
+{% endblock %}
+
+{% block content %}
+
+  <message-component></message-component>
+
+  <div class="column"></div>
+  <div class="column"></div>
+
+  <div id="container">
+
+    <div id="logo"></div>
+
+    <div id="login-column">
+      <div id="login">
+        <img src="{{ url_for('static',filename='images/discord-logo.svg') }}" id="discord">
+        <button type="submit">Login with Discord</button>
+      </div>
+    </div>  
+
+  </div>
+
+{% endblock %}

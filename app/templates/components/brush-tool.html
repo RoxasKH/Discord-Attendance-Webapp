@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/components/brush-tool.css') }}">
+
+<div class="edit-button" id="brush">
+  <label>
+    <input type="checkbox" name="brush">
+    <span class="tool-button">
+      <ion-icon name="brush-sharp"></ion-icon>
+    </span>
+  </label>
+</div>
+
+<div id = "options" class="shrink">
+  <loader-component class="edit-loading"></loader-component>
+  <button type="submit" class="small-button" id = "save">Save</button>
+  <label><input type="radio" name="colored-option" id="grey" value="0"><span></span></label>
+  <label><input type="radio" name="colored-option" id="green" value="1"><span></span></label>
+  <label><input type="radio" name="colored-option" id="yellow" value="2"><span></span></label>
+  <label><input type="radio" name="colored-option" id="red" value="3"><span></span></label>
+</div>

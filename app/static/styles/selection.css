@@ -1,0 +1,10 @@
+::selection{
+  color: var(--selection-text);
+  background: var(--selection);
+  text-shadow: none;
+}
+::-moz-selection {
+  color: var(--selection-text);
+  background: var(--selection);
+  text-shadow: none;
+}

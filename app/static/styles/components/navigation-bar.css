@@ -1,0 +1,61 @@
+@import '../utils.css';
+
+.topnav {
+  background-color: var(--box-bg);
+  height: 70px;
+}
+
+.topnav > a, .topnav > div {
+  float: left;
+  display: block;
+  color: var(--hover);
+  text-align: center;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  font-size: 28px;
+  height: 50px;
+}
+
+.topnav > a:hover {
+  background-color: var(--color-highlight);
+  transition: 0.2s;
+}
+
+#logo {
+  width: 50px;
+  height: 50px;
+}
+
+.active {
+  background-color: var(--default-color);
+  margin-right: 20px;
+}
+
+#user {
+  float: right;
+  position: relative;
+  display: inline-block;
+}
+
+#user_avatar_small {
+  cursor: pointer;
+  width: 50px;
+  border: 2px solid var(--text);
+  margin-top: -2px;
+}
+
+#user_avatar_small:hover {
+  box-shadow: 0px 0px 0px 3px rgba(255,255,255,0.3);
+}
+
+.bounce-in {
+  animation: bounce-in 0.5s ease;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
