@@ -1,7 +1,7 @@
 from flask import session
 
 from app.repository.discord_repository import DiscordRepository
-from app.model.resource import Success, Error
+from app.model.exception.http_exception import HttpException
 
 class LoginService():
 
@@ -12,10 +12,8 @@ class LoginService():
 
         response = self.repository.revoke_token()
         
-        if response.status_code == 200:
-            return Success()
-        else:
-            return Error(
+        if response.status_code != 200:
+            raise HttpException(
                 message = 'Logout failed.',
                 code = 500
             )

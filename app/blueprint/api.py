@@ -1,8 +1,6 @@
 from flask import Blueprint, request
 
-from app.util.http_exception import HttpException
 from app.service.api_service import ApiService
-from app.model.resource import Success, Error
 
 bp = Blueprint('api', __name__, url_prefix = '/api')
 
@@ -12,15 +10,8 @@ api_service = ApiService()
 # You need to both limit the access to external people through the token, but also limit the access to what the user can edit in db
 @bp.before_request
 def check_authorization():
-
     user_id = request.headers.get('Authorization-ID')
-    result = api_service.is_authorized(user_id)
-
-    if isinstance(result, Error):
-        raise HttpException(
-            message = result.message,
-            code = result.code
-        )
+    api_service.is_authorized(user_id)
 
 
 @bp.route('/table')
@@ -35,16 +26,10 @@ def table(username):
 
     match request.method:
         case 'PUT':
-            result = api_service.check_request(
+            api_service.check_request(
                 request = request,
                 parameters_list = ['month', 'attendance']
             )
-
-            if isinstance(result, Error):
-                raise HttpException(
-                        message = result.message,
-                        code = result.code
-                    )
 
             month = request.json['month']
             attendance_array = request.json['attendance']
