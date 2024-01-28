@@ -1,7 +1,6 @@
 from flask import Blueprint, redirect, request, session, url_for
 
 from app.service.login_service import LoginService
-from app.model.resource import Success, Error
 from app.util.utils import render_page
 
 bp = Blueprint('login', __name__)
@@ -32,12 +31,4 @@ def callback():
 @bp.route('/logout')
 def logout():
     result = login_service.logout()
-
-    match result:
-        case Success():
-            return redirect(url_for('.index'))
-        case Error():
-            raise HttpException(
-                message = result.message,
-                code = result.code
-            )
+    return redirect(url_for('.index'))

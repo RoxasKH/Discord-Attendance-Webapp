@@ -2,7 +2,7 @@ import traceback, json
 
 from app.repository.mongo_db_repository import MongoDBRepository
 from app.repository.discord_repository import DiscordRepository
-from app.model.resource import Success, Error
+from app.model.exception.http_exception import LoginException
 from app.model.user import User
 
 class ProfileService():
@@ -45,7 +45,7 @@ class ProfileService():
 
             try:
                 if user_guild_info['code'] is not None:
-                    return Error(
+                    raise LoginException(
                         message = user_guild_info['message'],
                         code = user_guild_info['code'] 
                     )
@@ -67,7 +67,7 @@ class ProfileService():
             # Implement auto-deleting the account if they're not a mod but they're in the db
 
             if not self.__is_authorized(user.roles):
-                return Error(
+                raise LoginException(
                     message = 'Unauthorized',
                     code = 401
                 )
@@ -83,11 +83,11 @@ class ProfileService():
                 )
                 response = self.db_repository.create_user(db_entry)
 
-            return Success(data = user)
+            return user
 
         except Exception as e:
             print(traceback.format_exc())
-            return Error(
+            raise LoginException(
                     message = str(e),
                     code = 500
                 )

@@ -186,6 +186,7 @@ Here's a view of the backend architecture:
 app/
 ├── blueprint/
 ├── model/
+│   └── exception/
 ├── repository/
 ├── service/
 ├── static/
