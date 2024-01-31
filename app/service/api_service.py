@@ -1,7 +1,7 @@
 import json
 
 from app.repository.mongo_db_repository import MongoDBRepository
-from app.model.resource import Success, Error
+from app.model.exception.http_exception import HttpException
 
 class ApiService():
 
@@ -24,18 +24,16 @@ class ApiService():
     
     def is_authorized(self, user_id):
         if user_id is None:
-            return Error(
+            raise HttpException(
                 message = 'Missing authorization header',
                 code = 400
             )
         
         if not self.__is_user_in_db(user_id):
-            return Error(
+            raise HttpException(
                 message = 'Unauthorized user id',
                 code = 401
             )
-        
-        return Success()
 
     def get_attendance(self):
         response = self.repository.get_attendance()
@@ -58,12 +56,12 @@ class ApiService():
                 parameter_string = parameter_string.replace(key, '', 1)
             
             if not ((len(request.json) == len(parameters_list)) and (parameter_string == '')):
-                return Error(
+                raise HttpException(
                     message = 'invalid request parameters',
                     code = 400
                 )
         else:
-            return Error(
+            raise HttpException(
                 message = 'request Content-Type needs to be json',
                 code = 400
             )
