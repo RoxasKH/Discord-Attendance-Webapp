@@ -169,9 +169,8 @@ This is basically the equivalent of the MVC pattern, but we don't have controlle
 The blueprint layer, which is the presentation layer, is made and organized through the help of Flask Blueprints, which organize routes that expose data and render templates, and are then attached to the Flask application object when it's created through the factory `create_app()` method.
 
 Blueprints communicate with services in the service layer which act as middlemen and retrieve data from repositories by communicating with the repository layer.
-Services sometimes makes use of custom `Success`/`Error` classes when they have to propagate multiple errors, so that the blueprints can act accordingly.
 
-Error handling is managed with Flask error handlers and a custom `HttpException` class.
+Error handling is managed with Flask error handlers and custom exceptions.
 
 The model once again contains the data classes the backend needs.
 
@@ -186,6 +185,7 @@ Here's a view of the backend architecture:
 app/
 ├── blueprint/
 ├── model/
+│   └── exception/
 ├── repository/
 ├── service/
 ├── static/
