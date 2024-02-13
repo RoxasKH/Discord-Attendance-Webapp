@@ -6,7 +6,7 @@ from app.util.enums.environment_type_enum import EnvironmentTypeEnum
 from app.util.config import Config
 from app.blueprint import login, api, profile, template, error_handler
 
-def create_app():
+def create_app() -> Flask:
 
     # Load the .env file from outside the package
     dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')

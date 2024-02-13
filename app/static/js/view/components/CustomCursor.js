@@ -1,5 +1,4 @@
 import { SignalComponent } from '../components/SignalComponent.js'
-import { ToolTypeEnum } from '../../utils/enums/ToolTypeEnum.js'
 import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
 
 class CustomCursor extends SignalComponent {
