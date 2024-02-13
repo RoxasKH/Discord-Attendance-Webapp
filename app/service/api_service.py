@@ -1,4 +1,6 @@
 import json
+from flask.wrappers import Request
+from typing import Dict, Any
 
 from app.repository.mongo_db_repository import MongoDBRepository
 from app.model.exception.http_exception import HttpException
@@ -10,19 +12,18 @@ class ApiService():
     # Right now, it searches for a user in db with the authorization id, but it should also check different
     # permission levels to know if they can also edit other users data
 
-    def __is_user_in_db(self, user_id):
-        response = self.repository.get_attendance()
-        full_table = json.loads(response.text)
+    def __is_user_in_db(self, user_id: str) -> bool:
+        full_table = self.repository.get_attendance()
 
         authorized = False
 
-        for user in full_table['documents']:
+        for user in full_table:
             if user['discord_user_id'] == user_id:
                 authorized = True
         
         return authorized
     
-    def is_authorized(self, user_id):
+    def is_authorized(self, user_id: str):
         if user_id is None:
             raise HttpException(
                 message = 'Missing authorization header',
@@ -35,15 +36,14 @@ class ApiService():
                 code = 401
             )
 
-    def get_attendance(self):
-        response = self.repository.get_attendance()
-        return json.loads(response.text)
+    def get_attendance(self) -> list[Dict[str, Any]]:
+        return self.repository.get_attendance()
     
-    def reset(self):
+    def reset(self) -> Dict[str, Any]:
         response = self.repository.reset_database()
         return json.loads(response.text)
     
-    def check_request(self, parameters_list, request):
+    def check_request(self, parameters_list: list[str], request: Request):
 
         parameter_string = ''
         keys = request.json.keys()
@@ -67,7 +67,14 @@ class ApiService():
             )
         
     
-    def update_user_attendance(self, user_id, username, month, attendance_array):
+    def update_user_attendance(
+        self, 
+        user_id: str, 
+        username: str, 
+        month: str, 
+        attendance_array: list[int]
+    ) -> Dict[str, Any]:
+    
         response = self.repository.update_user_attendance(
             user_id = user_id,
             username = username,

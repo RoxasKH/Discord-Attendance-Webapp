@@ -2,10 +2,8 @@ from dataclasses import dataclass
 
 @dataclass
 class HttpException(Exception):
-    
-    def __init__(self, message, code):
-        self.message = message
-        self.code = code
+    message: str
+    code: int
 
 @dataclass
 class LoginException(HttpException):

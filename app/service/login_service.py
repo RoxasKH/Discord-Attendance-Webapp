@@ -18,13 +18,13 @@ class LoginService():
                 code = 500
             )
     
-    def set_session_state(self, scope):
+    def set_session_state(self, scope: list[str]) -> str:
         authorization_url, state = self.repository.get_authorization_state(scope)
         session['oauth2_state'] = state
         print(session)
         return authorization_url
     
-    def set_session_token(self, response_url):
+    def set_session_token(self, response_url: str):
         token = self.repository.get_token(
             response_url = response_url
         )

@@ -1,5 +1,3 @@
-import { config } from '../../utils/Config.js'
-
 export class SignalComponent extends HTMLElement {
 
   constructor() {
