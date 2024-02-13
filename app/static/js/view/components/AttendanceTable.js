@@ -55,12 +55,12 @@ class AttendanceTable extends SignalComponent {
 
         console.log(response);
 
-        response.documents.forEach(user => 
+        response.forEach(user => 
           console.log(user.discord_user_name)
         );
 
-        let userElementArray = response.documents.filter(element => element.discord_user_id == id);
-        let otherUsersArray = response.documents.filter(element => !userElementArray.includes(element));
+        let userElementArray = response.filter(element => element.discord_user_id == id);
+        let otherUsersArray = response.filter(element => !userElementArray.includes(element));
         let orderedArray = userElementArray.concat(otherUsersArray);
         
         console.log(orderedArray);

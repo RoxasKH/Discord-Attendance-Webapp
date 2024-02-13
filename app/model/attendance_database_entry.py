@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from calendar import month_name, monthrange
 from datetime import datetime
 
@@ -18,15 +18,7 @@ class AttendanceEntry():
 
 @dataclass
 class AttendanceDatabaseEntry():
-
-    def __init__(
-        self, 
-        discord_user_id = '', 
-        discord_user_name = '', 
-        discord_user_discriminator = '', 
-        attendance = AttendanceEntry()
-    ):
-        self.discord_user_id = discord_user_id
-        self.discord_user_name = discord_user_name
-        self.discord_user_discriminator = discord_user_discriminator
-        self.attendance = attendance
+    discord_user_id: str = '', 
+    discord_user_name: str = '', 
+    discord_user_discriminator: str = '', 
+    attendance: AttendanceEntry = field(default_factory = AttendanceEntry)

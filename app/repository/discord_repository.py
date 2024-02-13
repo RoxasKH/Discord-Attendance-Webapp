@@ -1,6 +1,8 @@
 import requests
+from requests import Response
 from flask import session
 from requests_oauthlib import OAuth2Session
+from typing import Optional, Dict, Any
 
 from app.util.config import Config
 
@@ -18,10 +20,15 @@ class DiscordRepository():
     _OAUTH2_CLIENT_ID = config.OAUTH2_CLIENT_ID
     _OAUTH2_CLIENT_SECRET = config.OAUTH2_CLIENT_SECRET
 
-    def __token_updater(self, token):
+    def __token_updater(self, token: str):
         session['oauth2_token'] = token
 
-    def __make_session(self, token = None, state = None, scope = None):
+    def __make_session(
+        self, 
+        token: Optional[str] = None, 
+        state: Optional[str] = None, 
+        scope: Optional[list[str]] = None
+    ) -> OAuth2Session :
         return OAuth2Session(
             client_id = self._OAUTH2_CLIENT_ID,
             token = token,
@@ -37,21 +44,21 @@ class DiscordRepository():
         )
 
 
-    def get_user_oauth_data(self):
+    def get_user_oauth_data(self) -> Dict[str, Any]:
         discord_oauth2_session = self.__make_session(token = session.get('oauth2_token'))
         return discord_oauth2_session.get(
             self._BASE_URL + '/users/@me/guilds/' + self._SERVER_ID + '/member'
         ).json()
 
-    def get_token(self, response_url):
+    def get_token(self, response_url: str) -> str:
         discord_oauth2_session = self.__make_session(state = session.get('oauth2_state'))
         return discord_oauth2_session.fetch_token(
             self._TOKEN_URL,
             client_secret = self._OAUTH2_CLIENT_SECRET,
             authorization_response = response_url
         )
-    
-    def get_authorization_state(self, scope):
+
+    def get_authorization_state(self, scope: list[str]) -> str:
         discord_oauth2_session = self.__make_session(scope = scope.split(' '))
         return discord_oauth2_session.authorization_url(self._AUTHORIZATION_URL)
 
@@ -64,7 +71,7 @@ class DiscordRepository():
             client_secret: <client_secret>
             token: <access_token>
     '''
-    def revoke_token(self):
+    def revoke_token(self) -> Response:
 
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -82,4 +89,3 @@ class DiscordRepository():
             headers = headers, 
             data = data
         )
-    

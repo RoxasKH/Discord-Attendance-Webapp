@@ -1,5 +1,6 @@
 import os
 from configparser import ConfigParser, ExtendedInterpolation
+from typing import Dict
 
 from .enums.environment_variable_enum import EnvironmentVariableEnum
 from .singleton import Singleton
@@ -10,7 +11,7 @@ class Config(metaclass = Singleton):
 
     def __init__(self):
 
-        config = {}
+        config: Dict[str, str] = {}
 
         # Populate config from environment variables
         for variable in EnvironmentVariableEnum:

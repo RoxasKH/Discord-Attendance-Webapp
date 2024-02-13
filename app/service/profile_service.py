@@ -10,10 +10,8 @@ class ProfileService():
     db_repository = MongoDBRepository()
     discord_repository = DiscordRepository()
 
-    def __is_authorized(self, user_roles):
-        response = self.db_repository.get_authorized_roles()
-
-        authorized_roles = json.loads(response.text)['document']['roles']
+    def __is_authorized(self, user_roles: list[str]) -> bool:
+        authorized_roles = self.db_repository.get_authorized_roles()
 
         is_authorized = False
         
@@ -23,13 +21,12 @@ class ProfileService():
 
         return is_authorized
     
-    def __is_user_in_db(self, user_id):
-        response = self.db_repository.get_attendance()
-        full_table = json.loads(response.text)
+    def __is_user_in_db(self, user_id: str) -> bool:
+        full_table = self.db_repository.get_attendance()
 
         id_exists = False
 
-        for user in full_table['documents']:
+        for user in full_table:
             db_id = user['discord_user_id']
             if user_id == db_id:
                 id_exists = True
@@ -37,7 +34,7 @@ class ProfileService():
         return id_exists
 
 
-    def create_profile(self):
+    def create_profile(self) -> User:
 
         try:
 
