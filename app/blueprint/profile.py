@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, Response
+from typing import Union
 
 from app.service.profile_service import ProfileService
 from app.util.utils import render_page
@@ -8,7 +9,7 @@ bp = Blueprint('profile', __name__, url_prefix = '/me')
 profile_service = ProfileService()
 
 @bp.route('/')
-def me():
+def me() -> Union[str, Response]:
 
     user_data = profile_service.create_profile()
 

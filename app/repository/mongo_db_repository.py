@@ -1,4 +1,7 @@
 import json, requests
+from requests import Response
+from typing import Optional, Dict, Any
+from app.model.user import User
 
 from app.util.config import Config
 from app.util.enums.mongo_db_request_type_enum import MongoDBRequestTypeEnum
@@ -21,45 +24,43 @@ class MongoDBRepository():
     
     def __make_request_data(
         self, 
-        collection, 
-        filters = None, 
-        document = None,
-        update = None
-    ):
+        collection: str, 
+        filters: Optional[Dict[str, str]] = None, 
+        document: Optional[Dict[str, any]] = None,
+        update: Optional[Dict[str, Dict[str, Any]]] = None
+    ) -> Dict[str, Any]:
+
         json_payload = {
             'collection': collection,
             'database': self.config.DB_DATABASE_NAME,
             'dataSource': self.config.DB_DATA_SOURCE_NAME
         }
 
-        if filters is not None:
-            json_payload['filter'] = filters
-
-        if document is not None:
-            json_payload['document'] = document
-        
-        if update is not None:
-            json_payload['update'] = update
+        if filters: json_payload['filter'] = filters
+        if document: json_payload['document'] = document
+        if update: json_payload['update'] = update
 
         print(json_payload)
 
         return json.dumps(json_payload)
     
-    def get_authorized_roles(self):
+
+    def get_authorized_roles(self) -> list[str]:
 
         data = self.__make_request_data(
             collection = self._AUTHORIZATION_COLLECTION, 
             filters = {'type': 'moderator'}
         )
         
-        return requests.post(
+        response = requests.post(
             self._BASE_URL + MongoDBRequestTypeEnum.GET.value, 
             headers = self._REQUEST_HEADERS, 
             data = data
         )
 
-    
-    def reset_database(self):
+        return response.json()['document']['roles']
+
+    def reset_database(self) -> Response:
         json_set = {'$set': {'attendance': AttendanceEntry().__dict__}}
 
         data = self.__make_request_data(
@@ -74,20 +75,27 @@ class MongoDBRepository():
             data = data
         )
 
-    
-    def get_attendance(self):
+    def get_attendance(self) -> list[Dict[str, Any]]:
 
         data = self.__make_request_data(
             collection = self._ATTENDANCE_COLLECTION
         )
 
-        return requests.post(
+        response = requests.post(
             self._BASE_URL + MongoDBRequestTypeEnum.GET_MANY.value, 
             headers = self._REQUEST_HEADERS, 
             data = data
         )
+
+        return response.json()['documents']
     
-    def update_user_attendance(self, user_id, username, month, attendance_array):
+    def update_user_attendance(
+        self, 
+        user_id: str, 
+        username: str, 
+        month: str, 
+        attendance_array: list[int]
+    ) -> Response:
 
         json_set = {'$set': {'attendance.' + month: attendance_array}}
 
@@ -106,7 +114,7 @@ class MongoDBRepository():
             data = data
         )
 
-    def create_user(self, user):
+    def create_user(self, user: User) -> Response:
 
         data = self.__make_request_data(
             collection = self._ATTENDANCE_COLLECTION, 

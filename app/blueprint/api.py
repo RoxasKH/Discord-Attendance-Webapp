@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from typing import Dict, Any
 
 from app.service.api_service import ApiService
 
@@ -15,12 +16,12 @@ def check_authorization():
 
 
 @bp.route('/table')
-def attendance_table():
+def attendance_table() -> list[Dict[str, Any]]:
     return api_service.get_attendance()
 
 
 @bp.route('/table/<string:username>', methods = ['PUT'])
-def table(username):
+def table(username: str) -> Dict[str, Any]:
 
     user_id = request.headers.get('Authorization-ID')
 
@@ -43,5 +44,5 @@ def table(username):
             
 
 @bp.route('/reset')
-def reset():
+def reset() -> Dict[str, Any]:
     return api_service.reset()
