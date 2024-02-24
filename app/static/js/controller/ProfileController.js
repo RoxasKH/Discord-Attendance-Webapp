@@ -7,13 +7,14 @@ import { DialogButtonData } from '../model/DialogButtonData.js'
 import { UserAttendanceRepository } from '../repository/UserAttendanceRepository.js'
 import { UserAttendanceRepositoryError } from '../repository/UserAttendanceRepositoryError.js'
 import { arraysEqual, findRoots } from '../utils/Utils.js'
+import { User } from '../model/User.js';
 
 export class ProfileController {
 
-	constructor(profile, data) {
+	constructor(profile, userdata) {
 		this.localStorageHelper = new LocalStorageHelper();
 
-		this.data = data;
+		this.user = new User(userdata);
 
 		this.Profile = profile;
 
@@ -25,7 +26,7 @@ export class ProfileController {
 		this.dialog = profile.dialog;
 		this.customCursor = profile.customCursor;
 
-		this.currentArray = new CurrentArray(data.id, profile.table);
+		this.currentArray = new CurrentArray(this.user.id, profile.table);
 
 		this.listenerHandler = ListenerHandlerSingleton.getInstance();
 
@@ -46,7 +47,7 @@ export class ProfileController {
 
 		if (!this.localStorageHelper.exists('logged_in')) { // where 'logged_in' is a flag variable saved in local storage that says if the user logged in before
 			this.message.show(
-				"User logged in successfully: Welcome, " + this.data.username, 
+				"User logged in successfully: Welcome, " + this.user.username, 
 				MessageTypeEnum.SUCCESS);
 			this.localStorageHelper.set.single('logged_in', true);
 		}
@@ -123,7 +124,7 @@ export class ProfileController {
 	}
 
 	#initializeNavBar() {
-		this.navbar.setUserAvatar(this.data.avatar);
+		this.navbar.setUserAvatar(this.user.avatar);
 		this.navbar.user_avatar.addEventListener('click', () => {
 			this.navbar.user_avatar.classList.add('bounce-in');
 			this.navbar.user_avatar.addEventListener('animationend', () => {
@@ -135,11 +136,11 @@ export class ProfileController {
 
 	#initializeUserInfo() {
 		this.userinfo.setUserInfos(
-			this.data.avatar, 
-			this.data.username, 
-			this.data.discriminator, 
-			this.data.nick, 
-			this.data.joined_at
+			this.user.avatar, 
+			this.user.username, 
+			this.user.discriminator, 
+			this.user.nick, 
+			this.user.joined_at
 		);
 		this.userinfo.logoutButton.addEventListener('click', () => {
 			// Bind is needed to bind the right context where to call the function
@@ -155,7 +156,7 @@ export class ProfileController {
 
 	#initializeTable() {
 		this.table.update(
-			this.data.id,
+			this.user.id,
 			this.toolbar.getMonth(),
 			this.message,
 			this.currentArray
@@ -167,7 +168,7 @@ export class ProfileController {
 		this.toolbar.setToolSelection();
 		this.customCursor.reset();
 		this.toolbar.brush.hideOptions();
-		this.table.setEditMode(this.toolbar, this.data.id);
+		this.table.setEditMode(this.toolbar, this.user.id);
 		this.#initializeTable();
 	}
 
@@ -211,18 +212,18 @@ export class ProfileController {
 		this.table.initializeEventHandlers();
 		this.#resetDocumentListeners();
 		this.toolbar.setToolSelection(ToolTypeEnum.PENCIL);
-		this.table.setEditMode(this.toolbar, this.data.id);
+		this.table.setEditMode(this.toolbar, this.user.id);
 		this.customCursor.set(this.toolbar.pencil, ToolTypeEnum.PENCIL);
 		if(this.toolbar.pencil.isChecked()) {
-			this.table.setPencilEventListener(this.data, this.toolbar.getMonth(), this.toolbar.pencil, this.currentArray, this.message);
+			this.table.setPencilEventListener(this.user, this.toolbar.getMonth(), this.toolbar.pencil, this.currentArray, this.message);
 		}
 
 		this.toolbar.brush.hideOptions();
 
-		if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.data.id))) && this.currentArray.array != null) {
+		if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.user.id))) && this.currentArray.array != null) {
 			this.resetTableRow(
 				this.currentArray.array, 
-				this.data.id, 
+				this.user.id, 
 				undefined, // Basically, skip a parameter
 				() => {
 					let saveCurrentArrayState = this.currentArray.array;
@@ -244,13 +245,13 @@ export class ProfileController {
 			else
 				this.currentArray.update();
 
-			this.table.setBrushEventListener(this.data.id, this.toolbar.brush, this.currentArray, this.message);
+			this.table.setBrushEventListener(this.user.id, this.toolbar.brush, this.currentArray, this.message);
 		}
 		else {
 			console.log(this.currentArray.array);
-			console.log(this.currentArray.get(this.data.id));
-			if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.data.id))))
-				this.resetTableRow(this.currentArray.array, this.data.id, this.toggleBrush.bind(this));
+			console.log(this.currentArray.get(this.user.id));
+			if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.user.id))))
+				this.resetTableRow(this.currentArray.array, this.user.id, this.toggleBrush.bind(this));
 			else
 				this.toggleBrush();
 		}
@@ -262,7 +263,7 @@ export class ProfileController {
 		this.#resetDocumentListeners();
 		this.toolbar.setToolSelection(ToolTypeEnum.BRUSH);
 
-		this.table.setEditMode(this.toolbar, this.data.id);
+		this.table.setEditMode(this.toolbar, this.user.id);
 		this.customCursor.set(this.toolbar.brush, ToolTypeEnum.BRUSH);
 		this.toolbar.brush.toggleOptions();
 	}
@@ -302,7 +303,7 @@ export class ProfileController {
 	 	loader.show();
 
 		this.userAttendanceRepository.updateDatabaseEntry(
-			this.data,
+			this.user,
 			this.toolbar.getMonth(),
 			this.currentArray.array
 		)
@@ -353,12 +354,12 @@ export class ProfileController {
 		this.dialog.loader.show();
 
 		this.userAttendanceRepository.updateDatabaseEntry(
-			this.data, 
+			this.user, 
 			this.toolbar.getMonth(),
 			emptyArray
 		)
 		.then(response => {
-			this.table.recolorTableRow(emptyArray, this.data.id, this.message);
+			this.table.recolorTableRow(emptyArray, this.user.id, this.message);
 			this.dialog.loader.hide();
 			this.dialog.hide();
 		})
