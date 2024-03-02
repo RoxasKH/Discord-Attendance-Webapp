@@ -1,5 +1,5 @@
-import '../components/Loader.js'
-import { Tool } from '../components/Tool.js'
+import './Loader.js'
+import { Tool } from './Tool.js'
 import { getValue, getColor } from '../../utils/Colors.js'
 import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js'
 import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js'
