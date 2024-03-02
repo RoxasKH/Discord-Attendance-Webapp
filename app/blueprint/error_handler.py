@@ -22,7 +22,7 @@ def login_server_error(error: LoginException) -> Union[str, Response]:
     return render_page(
         page = 'Login',
         data = {
-            'error': error.message, 
+            'message': error.message, 
             'code': error.code
         }
     )
