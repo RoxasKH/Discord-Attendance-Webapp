@@ -1,4 +1,4 @@
-import { SignalComponent } from '../components/SignalComponent.js'
+import { SignalComponent } from './SignalComponent.js'
 import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
 import { DialogButtonData } from '../../model/DialogButtonData.js'
 

@@ -1,5 +1,5 @@
-import '../components/Loader.js'
-import { Tool } from '../components/Tool.js'
+import './Loader.js'
+import { Tool } from './Tool.js'
 import { getColor } from '../../utils/Colors.js'
 
 class BrushTool extends Tool {
