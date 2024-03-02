@@ -24,7 +24,7 @@ import(`./view/pages/${jinja.currentPage}.js`) // Import the view template
     document.title = `${jinja.currentPage} - Big Table App`;
 
     // Now dynamically import the corresponding controller
-    import(`./controller/${jinja.currentPage}Controller.js`)
+    import(`./controller/pages/${jinja.currentPage}Controller.js`)
       .then(controllerModule => {
         const ControllerClass = controllerModule[`${jinja.currentPage}Controller`];
 
@@ -54,5 +54,4 @@ import(`./view/pages/${jinja.currentPage}.js`) // Import the view template
   })
   .catch(error => {
     console.error(`Error loading view for ${jinja.currentPage}:`, error);
-    throw error;
   });

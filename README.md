@@ -84,6 +84,8 @@ static/
 ├── images/
 ├── js/
 │   ├── controller/
+|   |   ├── components/
+|   |   └── pages/
 │   ├── model/
 │   ├── repository/
 │   ├── utils/
