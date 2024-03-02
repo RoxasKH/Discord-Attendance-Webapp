@@ -1,4 +1,4 @@
-import { SignalComponent } from '../components/SignalComponent.js'
+import { SignalComponent } from './SignalComponent.js'
 
 class User extends SignalComponent {
 

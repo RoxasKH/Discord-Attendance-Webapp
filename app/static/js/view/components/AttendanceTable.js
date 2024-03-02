@@ -1,5 +1,5 @@
-import { SignalComponent } from '../components/SignalComponent.js'
-import '../components/Loader.js'
+import { SignalComponent } from './SignalComponent.js'
+import './Loader.js'
 import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
 import { getColor, getValue } from '../../utils/Colors.js'
 import { debounce, index, rgba2hex, arraysEqual } from '../../utils/Utils.js'
