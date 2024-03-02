@@ -1,27 +1,28 @@
-import { LocalStorageHelper } from '../utils/LocalStorageHelper.js'
-import { MessageTypeEnum } from '../utils/enums/MessageTypeEnum.js'
+import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js'
+import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
+import { MessageController } from '../components/MessageController.js';
 
 export class LoginController {
 
-	constructor(login, data) {
+	constructor(login, errordata) {
 		this.localStorageHelper = new LocalStorageHelper();
 
-		this.data = data;
-	
-		this.Login = login;
+		this.error = errordata;
 
 		this.message = login.message;
 		this.loginButton = login.loginButton;
+
+		this.messageController = MessageController(this.message);
 	}
 
 	init() {
 
-		this.#initializeMessage();
+		this.messageController.init();
 		this.#initializeLogin();
 
-		if(typeof this.data !== 'undefined') {
+		if(typeof this.error !== 'undefined') {
 		    this.message.show(
-		    	"Error: " + this.data.error + ", Code:" + this.data.code, 
+		    	"Error: " + this.error.message + ", Code:" + this.error.code, 
 		    	MessageTypeEnum.ERROR
 		    );
 		}
@@ -36,17 +37,10 @@ export class LoginController {
 
 	}
 
-
-	#initializeMessage() {
-		this.message.close_button.addEventListener('click', () => 
-			this.message.close()
-		);
-	}
-
 	#initializeLogin() {
-		this.loginButton.addEventListener('click', () => 
-			window.location.replace('/login')
-		);
+		this.loginButton.addEventListener('click', () => {
+			window.location.replace('/login');
+		});
 	}
 
 }
