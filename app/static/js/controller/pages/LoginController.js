@@ -12,7 +12,7 @@ export class LoginController {
 		this.message = login.message;
 		this.loginButton = login.loginButton;
 
-		this.messageController = MessageController(this.message);
+		this.messageController = new MessageController(this.message);
 	}
 
 	init() {
