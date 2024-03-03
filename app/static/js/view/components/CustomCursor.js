@@ -52,9 +52,9 @@ class CustomCursor extends SignalComponent {
 
   reset() {
     this.listenerHandler.removeAllListeners(document.body, 'mousemove');
-    this.shadowRoot.querySelectorAll('.cursor').forEach(cursor => {
+    for (const cursor of this.shadowRoot.querySelectorAll('.cursor')) {
       cursor.classList.add('hide');
-    })
+    }
     document.body.style.cursor = 'auto';
   }
 

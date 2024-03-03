@@ -23,9 +23,10 @@ export let ListenerHandlerSingleton = (() => {
         removeAllListeners (targetNode, event) {
             if (this._eventHandlers[event]) {
                 // Remove listeners from the matching nodes
-                this._eventHandlers[event]
-                    .filter(({ node }) => node === targetNode)
-                    .forEach(({ node, handler, capture }) => node.removeEventListener(event, handler, capture));
+                const filteredEvent = this._eventHandlers[event].filter(({ node }) => node === targetNode);
+                for (const { node, handler, capture } of filteredEvent) {
+                    node.removeEventListener(event, handler, capture);
+                }
 
                 // Update _eventHandlers global
                 this._eventHandlers[event] = this._eventHandlers[event].filter(

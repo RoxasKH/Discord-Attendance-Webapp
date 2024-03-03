@@ -60,7 +60,7 @@ class Dialog extends SignalComponent {
 
     buttonList.unshift(cancelButton);
 
-    buttonList.forEach(button => {
+    for (const button of buttonList) {
       let button_dom = document.createElement('div');
       button_dom.append(button.name);
       button_dom.addEventListener('click', () => {
@@ -73,7 +73,7 @@ class Dialog extends SignalComponent {
         button_dom.classList.add('highlighted');
       else
         button_dom.classList.add('not-highlighted');
-    });
+    }
 
     if(!mandatory) {
       this.listenerHandler.addListener(this.#dialogScreen, 'click', (event) => {
