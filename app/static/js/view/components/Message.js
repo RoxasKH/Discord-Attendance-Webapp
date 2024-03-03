@@ -42,11 +42,11 @@ class Message extends SignalComponent {
     if(this.#message)
       this.#message.innerHTML = message;
 
-    Object.keys(MessageTypeEnum).forEach(type => {
+    for (const type of Object.keys(MessageTypeEnum)) {
       if (MessageTypeEnum[type] instanceof MessageTypeEnum) {
         this.#message_container.classList.remove(MessageTypeEnum[type].name);
       }
-    });
+    }
 
     if (typeClass instanceof MessageTypeEnum)
       this.#message_container.classList.add(typeClass.name);

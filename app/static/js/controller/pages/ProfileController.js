@@ -111,9 +111,9 @@ export class ProfileController {
 
 		let floatingElements = [];
 
-		allElements.forEach(element => {
+		for (const element of allElements) {
 			floatingElements.push(Array.prototype.slice.call(element.querySelectorAll('*')));
-		});
+		}
 
 		floatingElements = floatingElements.flat().filter(element => {
 			let position = window.getComputedStyle(element).getPropertyValue('position');
@@ -123,9 +123,9 @@ export class ProfileController {
 
 		console.log(floatingElements);
 		
-		floatingElements.forEach(floatingElement => {
+		for (const floatingElement of floatingElements) {
 			floatingElement.style.cursor = 'auto';
-		});
+		}
 
 	}
 
@@ -154,11 +154,11 @@ export class ProfileController {
 			// If the target of the click isn't the container nor a descendant of the container
 			if (!event.composedPath().includes(pencilColors)) {
 				let isNotCell = true;
-				cells.forEach(cell => {
+				for (const cell of cells) {
 					if(event.composedPath().includes(cell)) {
 						isNotCell = false;
 					}
-				});
+				}
 				if(isNotCell) {
 					this.pencil.hideOptions();
 				}

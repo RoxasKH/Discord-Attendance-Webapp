@@ -55,9 +55,9 @@ class AttendanceTable extends SignalComponent {
 
         console.log(response);
 
-        response.forEach(user => 
+        for (const user of response) {
           console.log(user.discord_user_name)
-        );
+        }
 
         let userElementArray = response.filter(element => element.discord_user_id == id);
         let otherUsersArray = response.filter(element => !userElementArray.includes(element));
@@ -109,7 +109,7 @@ class AttendanceTable extends SignalComponent {
 
     let entry;
 
-    response.forEach(user => {
+    for (const user of response) {
 
       entry = document.createElement('tr');
       entry.id = user.discord_user_id;
@@ -120,15 +120,15 @@ class AttendanceTable extends SignalComponent {
 
       entry.append(entry_header);
 
-      user.attendance[month].forEach(value => {
+      for (const value of user.attendance[month]) {
         let entry_cell = document.createElement('td');
         entry_cell.style.backgroundColor = getColor(value);
         entry.append(entry_cell);
-      });
+      }
 
       this.#table.append(entry);
 
-    });
+    }
 
     this.#rows = this.shadowRoot.querySelectorAll('tr');
     this.cells = this.shadowRoot.querySelectorAll('td');
@@ -145,31 +145,31 @@ class AttendanceTable extends SignalComponent {
   }
 
   setCellColor(rowIndex, cellIndex, color) {
-    this.#rows.forEach((row, index) => {
+    for (const [index, row] of this.#rows.entries()) {
       if(index == rowIndex) {
         let rowCells = row.querySelectorAll('td');
-        rowCells.forEach((cell, index) => {
+        for (const [index, cell] of rowCells.entries()) {
           if(index == cellIndex) {
             cell.style.backgroundColor = color;
           }
-        });
+        }
       }
-    });
+    }
   }
 
   getCellColor(rowIndex, cellIndex) {
     let color;
 
-    this.#rows.forEach((row, index) => {
+    for (const [index, row] of this.#rows.entries()) {
       if(index == rowIndex) {
         let rowCells = row.querySelectorAll('td');
-        rowCells.forEach((cell, index) => {
+        for (const [index, cell] of rowCells.entries()) {
           if(index == cellIndex) {
             color = rgba2hex(cell.style.backgroundColor);
           }
-        });
+        }
       }
-    });
+    }
 
     return color;
   }
@@ -189,9 +189,9 @@ class AttendanceTable extends SignalComponent {
     console.log('S'+single_td_width);
     console.log(this.cells);
 
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       cell.style.width = single_td_width;
-    });
+    }
 
   }
 
@@ -199,37 +199,37 @@ class AttendanceTable extends SignalComponent {
 
     this.#resetSelection();
 
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       this.listenerHandler.removeAllListeners(cell, 'click');
       this.listenerHandler.removeAllListeners(cell, 'mousedown');
-    });
+    }
 
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       this.listenerHandler.addListener(cell, 'click', () => {
         this.#resetSelection();
         cell.style.filter = 'brightness(140%)';
       });
-    });
+    }
 
   }
 
   #resetSelection() {
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       cell.style.filter = 'none';
-    });
+    }
   }
 
   recolorTableRow(attendanceArray, rowId, message) {
 
-    this.#rows.forEach(row => {
+    for (const row of this.#rows) {
       if(row.id == rowId) {
         let rowCells = row.querySelectorAll('td');
-        rowCells.forEach((cell, index) => {
+        for (const [index, cell] of rowCells.entries()) {
           let color = getColor(attendanceArray[index]);
           cell.style.backgroundColor = color;
-        });
+        }
       }
-    });
+    }
 
     if(message.isOfType(MessageTypeEnum.WARNING) && message.getMessage() == 'Warning: unsaved changes') {
       message.close();
@@ -245,32 +245,32 @@ class AttendanceTable extends SignalComponent {
     if (toolbar.isToolSelected()) {
       const [headers_row, ...rows] = this.#rows;
 
-      rows.forEach(row => {
+      for (const row of rows) {
         console.log('ID: '+id+', rowID:'+row.id);
         if (row.id != id) {
           row.disabled = true;
           row.style.filter = 'brightness(70%)';
-          row.querySelectorAll('td').forEach(cell => {
+          for (const cell of row.querySelectorAll('td')) {
             this.listenerHandler.removeAllListeners(cell, 'click');
-          });
+          }
         }
-      });
+      }
     }
     else {
-      this.#rows.forEach(row => { 
+      for (const row of this.#rows) {
         row.disabled = false;
         row.style.filter = 'none';
-      });
+      }
     }
   }
 
   generateArray(row_index, cell_index, value) {
     let attendanceArray = [];
 
-    this.shadowRoot.querySelectorAll('tr:nth-child(' + (row_index+1) + ') td').forEach(cell => {
+    for (const cell of this.shadowRoot.querySelectorAll('tr:nth-child(' + (row_index+1) + ') td')) {
       let hex_color = rgba2hex(cell.style.backgroundColor);
       attendanceArray.push(getValue(hex_color));
-    });
+    }
 
     attendanceArray[cell_index] = parseInt(value);
     console.log(attendanceArray);
@@ -280,7 +280,7 @@ class AttendanceTable extends SignalComponent {
 
   setPencilEventListener(data, month, pencil, currentArray, message) {
 
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       if(!cell.parentNode.disabled) {
         this.listenerHandler.addListener(cell, 'click', (event) => {
           let row = cell.closest('tr');
@@ -296,13 +296,13 @@ class AttendanceTable extends SignalComponent {
       else {
         this.listenerHandler.addListener(cell, 'click', () => { pencil.hideOptions(); });
       }
-    })
+    }
 
   }
 
   setBrushEventListener(id, brush, currentArray, message) {
 
-    this.cells.forEach(cell => {
+    for (const cell of this.cells) {
       if(!cell.parentNode.disabled) {
         this.listenerHandler.addListener(cell, 'mousedown', () => {
           let row = cell.closest('tr');
@@ -324,10 +324,10 @@ class AttendanceTable extends SignalComponent {
             message.close();
         });
       }
-    });
+    }
 
     this.listenerHandler.addListener(document, 'mousedown', () => {
-      this.cells.forEach(cell => {
+      for (const cell of this.cells) {
         if(!cell.parentNode.disabled) {
           this.listenerHandler.addListener(cell, 'mouseover', () => {
             let color = brush.getSelectedColor();
@@ -339,16 +339,16 @@ class AttendanceTable extends SignalComponent {
               message.close();
           });
         }
-      });
+      }
 
     })
 
     this.listenerHandler.addListener(document, 'mouseup', () => {
-      this.cells.forEach(cell => {
+      for (const cell of this.cells) {
         if(!cell.parentNode.disabled) {
           this.listenerHandler.removeAllListeners(cell, 'mouseover');
         }
-      });
+      }
     });
 
   }

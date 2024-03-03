@@ -86,18 +86,18 @@ class Toolbar extends SignalComponent {
   }
 
   setToolSelection(toolType = '') {
-    this.tools.forEach(tool => {
+    for (const tool of this.tools) {
       if(!tool.classList.contains(toolType.name))
         tool.uncheck();
-    });
+    }
   }
 
   isToolSelected() { 
     let isToolSelected = false;
-    this.tools.forEach(tool => {
+    for (const tool of this.tools) {
       if(tool.isChecked())
         isToolSelected = true;
-    });
+    }
     return isToolSelected;
   }
 
