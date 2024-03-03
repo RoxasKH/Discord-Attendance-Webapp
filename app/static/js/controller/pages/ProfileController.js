@@ -169,7 +169,7 @@ export class ProfileController {
 	}
 
 
-	#resetTableRow(array, rowId, toolMethod = function() {}, cancelFunction = function() {}) {
+	#resetTableRow(array, rowId, toolMethod = () => {}, cancelFunction = () => {}) {
 		let discardButton = new DialogButtonData(
 			'Discard', 
 			() => {

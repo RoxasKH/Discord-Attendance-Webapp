@@ -18,7 +18,7 @@ export class CurrentArray {
     console.log(cells);
     let array = [];
 
-    cells.forEach(function(cell, index) {
+    cells.forEach((cell, index) => {
       if(cell.parentNode.id == row_id) {
         let color = rgba2hex(cell.style.backgroundColor);
         array.push(getValue(color));
