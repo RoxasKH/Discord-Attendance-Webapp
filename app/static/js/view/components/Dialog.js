@@ -42,7 +42,7 @@ class Dialog extends SignalComponent {
   disconnectedCallback() {}
 
 
-  show(message, buttonList, mandatory, cancelFunction = function() {}) {
+  show(message, buttonList, mandatory, cancelFunction = () => {}) {
 
     this.listenerHandler.removeAllListeners(this.#dialogScreen, 'click');
     this.#dialogMessage.replaceChildren(); // Emptying its content

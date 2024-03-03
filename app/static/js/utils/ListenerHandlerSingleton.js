@@ -1,6 +1,6 @@
 // Uses IIFE (Immediately Invoked Function Expression) and Factory pattern to guarantee to get the same instance
 
-export let ListenerHandlerSingleton = (function () {
+export let ListenerHandlerSingleton = (() => {
 
     let instance;
 
@@ -36,7 +36,7 @@ export let ListenerHandlerSingleton = (function () {
     }
 
     return {
-        getInstance: function () {
+        getInstance: () => {
           if (!instance) {
             instance = new ListenerHandler();
           }
