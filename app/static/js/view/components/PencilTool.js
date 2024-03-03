@@ -47,10 +47,10 @@ class PencilTool extends Tool {
 
 
   initializeColors() {
-    this.#colorOptions.forEach(colorOption => {
+    for (const colorOption of this.#colorOptions) {
       let color = getColor(colorOption.dataset.value);
       colorOption.style.backgroundColor = color;
-    })
+    }
   }
 
   hideOptions() {
@@ -99,7 +99,7 @@ class PencilTool extends Tool {
 
   setColorsEventListener(data, month, table, row_index, cell_index, currentArray, message) {
 
-    this.#colorOptions.forEach(colorOption => {
+    for (const colorOption of this.#colorOptions) {
       // Remove listeners previously set to other cells
       this.listenerHandler.removeAllListeners(colorOption, 'click');
 
@@ -139,7 +139,7 @@ class PencilTool extends Tool {
           this.hideOptions();
         }
       });
-    });
+    }
   }
 
 }

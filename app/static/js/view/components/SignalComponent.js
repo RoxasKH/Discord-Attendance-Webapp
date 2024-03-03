@@ -9,7 +9,7 @@ export class SignalComponent extends HTMLElement {
   }
 
   registerChildComponents(components = []) {
-    components.forEach(component => {
+    for (const component of components) {
       let promise = new Promise((resolve) => {
         component.addEventListener('component-initialized', () => {
           resolve(this.constructor.name + ': ' + component.constructor.name + ' initialized');
@@ -17,12 +17,12 @@ export class SignalComponent extends HTMLElement {
       });
 
       this.childrenPromises.push(promise);
-    });
+    }
 
     Promise.all(this.childrenPromises)
       .then((results) => {
         // All events have been fired, and their promises have resolved
-        results.forEach(result => { console.log(result); });
+        for (const result of results) { console.log(result); }
         console.log(this.constructor.name + ' - initialized');
         const initEvent = new Event('component-initialized', { bubbles: true });
         this.dispatchEvent(initEvent);
