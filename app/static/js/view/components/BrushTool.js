@@ -51,7 +51,7 @@ class BrushTool extends Tool {
 
     this.resetColorsBackground();
 
-    this.options.querySelectorAll('label').forEach(label => {
+    for (const label of this.options.querySelectorAll('label')) {
 
       let labelInput = label.querySelector('input');
       let labelSpan = label.querySelector('span');
@@ -72,21 +72,21 @@ class BrushTool extends Tool {
         labelSpan.style.backgroundColor = color;
       }
 
-    });
+    }
   }
 
   resetColorsBackground() {
-    this.options.querySelectorAll('span').forEach(colorOption => {
+    for (const colorOption of this.options.querySelectorAll('span')) {
       colorOption.style.backgroundColor = 'transparent';
-    });
+    }
   }
 
   getSelectedColor() {
     let value;
-    this.options.querySelectorAll('input').forEach(color => {
+    for (const color of this.options.querySelectorAll('input')) {
       if(color.checked)
         value = color.value;
-    });
+    }
     return getColor(value);
   }
 

@@ -18,12 +18,12 @@ export class CurrentArray {
     console.log(cells);
     let array = [];
 
-    cells.forEach((cell, index) => {
+    for (const cell of cells) {
       if(cell.parentNode.id == row_id) {
         let color = rgba2hex(cell.style.backgroundColor);
         array.push(getValue(color));
       }
-    });
+    }
 
     return array;
   }
