@@ -27,12 +27,12 @@ export class LoginController {
 		    );
 		}
 		// localStorage saves data in a string format and you have to convert it to an object with JSON.parse in order to retrieve it
-		if(this.localStorageHelper.exists('logged_in') && !JSON.parse(this.localStorageHelper.get.single('logged_in'))) {
+		if(this.localStorageHelper.exists('logged_in') && !this.localStorageHelper.getBoolean('logged_in')) {
 		    this.message.show(
 		    	"You have successfully logged out from the application", 
 		    	MessageTypeEnum.SUCCESS
 		    );
-		    this.localStorageHelper.clear.single('logged_in');
+		    this.localStorageHelper.removeItem('logged_in');
 		}
 
 	}

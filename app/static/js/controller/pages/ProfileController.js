@@ -100,8 +100,9 @@ export class ProfileController {
 		if (!this.localStorageHelper.exists('logged_in')) {
 			this.message.show(
 				"User logged in successfully: Welcome, " + this.user.username, 
-				MessageTypeEnum.SUCCESS);
-			this.localStorageHelper.set.single('logged_in', true);
+				MessageTypeEnum.SUCCESS
+			);
+			this.localStorageHelper.setBoolean('logged_in', true);
 		}
 
 		// Explicitly set cursor to auto for elements that are on a higher layer than the base one

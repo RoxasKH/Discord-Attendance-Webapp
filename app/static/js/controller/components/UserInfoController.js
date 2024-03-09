@@ -32,7 +32,7 @@ export class UserInfoController {
     }
 
     #logoutRedirect() {
-		this.localStorageHelper.set.single('logged_in', false);
+		this.localStorageHelper.setBoolean('logged_in', false);
 		window.location.replace('/logout'); // Redirect to the logout endpoint
 	}
 
