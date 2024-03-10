@@ -1,5 +1,5 @@
-import { config } from '../utils/Config.js'
-import { UserAttendanceRepositoryError } from './UserAttendanceRepositoryError.js'
+import { config } from '../utils/Config.js';
+import { UserAttendanceRepositoryError } from './UserAttendanceRepositoryError.js';
 
 export class UserAttendanceRepository {
   
@@ -8,10 +8,10 @@ export class UserAttendanceRepository {
   }
 
 
-  updateDatabaseEntry(data, month, attendanceArray) {
+  updateDatabaseEntry(id, month, attendanceArray) {
     const url = `${this.BASE_URL}/api/table/${data.username}`;
     const headers = {
-      'Authorization-ID': data.id,
+      'Authorization-ID': id,
       'Content-Type': 'application/json'
     };
     const payload = JSON.stringify({

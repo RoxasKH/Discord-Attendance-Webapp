@@ -18,7 +18,7 @@ class ApiService():
         authorized = False
 
         for user in full_table:
-            if user['discord_user_id'] == user_id:
+            if user.get('discord_user_id') == user_id:
                 authorized = True
         
         return authorized

@@ -1,4 +1,4 @@
-import { SignalComponent } from './SignalComponent.js'
+import { SignalComponent } from './SignalComponent.js';
 
 export class Tool extends SignalComponent {
 

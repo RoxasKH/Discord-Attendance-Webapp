@@ -1,9 +1,9 @@
-import './Loader.js'
-import { Tool } from './Tool.js'
-import { getValue, getColor } from '../../utils/Colors.js'
-import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js'
-import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js'
-import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
+import './Loader.js';
+import { Tool } from './Tool.js';
+import { getValue, getColor } from '../../utils/Colors.js';
+import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js';
+import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js';
+import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js';
 
 class PencilTool extends Tool {
 
@@ -97,7 +97,7 @@ class PencilTool extends Tool {
 
   }
 
-  setColorsEventListener(data, month, table, row_index, cell_index, currentArray, message) {
+  setColorsEventListener(userid, month, table, row_index, cell_index, currentArray, message) {
 
     for (const colorOption of this.#colorOptions) {
       // Remove listeners previously set to other cells
@@ -111,7 +111,7 @@ class PencilTool extends Tool {
         if (table.getCellColor(row_index, cell_index) != color) {
           table.setCellColor(row_index, cell_index, color);
           let array = table.generateArray(row_index, cell_index, getValue(color));
-          this.#userAttendanceRepository.updateDatabaseEntry(data, month, array)
+          this.#userAttendanceRepository.updateDatabaseEntry(userid, month, array)
           .then(response => {
             this.#loader.hide();
             this.hideOptions();

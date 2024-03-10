@@ -9,6 +9,8 @@ from .singleton import Singleton
 
 class Config(metaclass = Singleton):
 
+    DISCORD_API_VERSION = 9
+
     def __init__(self):
 
         config: Dict[str, str] = {}
@@ -16,7 +18,7 @@ class Config(metaclass = Singleton):
         # Populate config from environment variables
         for variable in EnvironmentVariableEnum:
             if variable.name in os.environ:
-                config[variable.name] = os.environ[variable.name]
+                config[variable.name] = os.getenv(variable.name)
 
         # Create a parser with extended interpolation to understand references to other ini variables
         configParser = ConfigParser(interpolation = ExtendedInterpolation())
@@ -38,8 +40,12 @@ class Config(metaclass = Singleton):
         for key, value in config.items():
             setattr(self, key, value)
     
+
     def __str__(self):
         str = f'{type(self).__name__}(\n'
+        for attr in dir(self.__class__):
+            if not attr.startswith('__'):
+                str += f'\t{attr}: {getattr(self.__class__, attr)}\n'
         for key, value in vars(self).items():
             str += f'\t{key}: {value}\n'
         str += ')'

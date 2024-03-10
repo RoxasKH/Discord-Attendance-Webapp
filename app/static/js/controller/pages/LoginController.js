@@ -1,5 +1,5 @@
-import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js'
-import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
+import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js';
+import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js';
 import { MessageController } from '../components/MessageController.js';
 
 export class LoginController {
@@ -20,7 +20,7 @@ export class LoginController {
 		this.messageController.init();
 		this.#initializeLogin();
 
-		if(typeof this.error !== 'undefined') {
+		if(this.error) {
 		    this.message.show(
 		    	"Error: " + this.error.message + ", Code:" + this.error.code, 
 		    	MessageTypeEnum.ERROR

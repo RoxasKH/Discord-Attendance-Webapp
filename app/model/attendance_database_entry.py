@@ -18,7 +18,7 @@ class AttendanceEntry():
 
 @dataclass
 class AttendanceDatabaseEntry():
-    discord_user_id: str = '', 
-    discord_user_name: str = '', 
-    discord_user_discriminator: str = '', 
+    discord_user_id: str = ''
+    discord_user_name: str = ''
+    discord_user_discriminator: str = ''
     attendance: AttendanceEntry = field(default_factory = AttendanceEntry)

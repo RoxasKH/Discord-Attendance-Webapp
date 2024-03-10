@@ -1,5 +1,5 @@
-import { SignalComponent } from './SignalComponent.js'
-import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
+import { SignalComponent } from './SignalComponent.js';
+import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js';
 
 class CustomCursor extends SignalComponent {
 

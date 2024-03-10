@@ -27,7 +27,7 @@ class ProfileService():
         id_exists = False
 
         for user in full_table:
-            db_id = user['discord_user_id']
+            db_id = user.get('discord_user_id')
             if user_id == db_id:
                 id_exists = True
         
@@ -41,23 +41,36 @@ class ProfileService():
             user_guild_info = self.discord_repository.get_user_oauth_data()
 
             try:
-                if user_guild_info['code'] is not None:
+                if user_guild_info.get('code') is not None:
                     raise LoginException(
-                        message = user_guild_info['message'],
-                        code = user_guild_info['code'] 
+                        message = user_guild_info.get('message'),
+                        code = user_guild_info.get('code') 
                     )
             except Exception as e:
                 pass
+
+            print(user_guild_info)
+
+            user_info = user_guild_info.get('user')
             
-            # Create a User object
+            # Wrap info into a User object
             user = User(
-                joined_at = user_guild_info['joined_at'],
-                nick = user_guild_info['nick'],
-                discriminator = user_guild_info['user']['discriminator'],
-                id = user_guild_info['user']['id'],
-                username = user_guild_info['user']['username'],
-                avatar = user_guild_info['user']['avatar'],
-                roles = user_guild_info['roles'],
+                id = user_info.get('id'),
+                username = user_info.get('username'),
+                discriminator = user_info.get('discriminator'),
+                display_name = user_info.get('global_name'),
+                avatar = user_info.get('avatar'),
+                joined_at = user_guild_info.get('joined_at'),
+                roles = user_guild_info.get('roles'),
+                is_bot = user_info.get('bot'),
+                banner = user_info.get('banner'),
+                locale = user_info.get('locale'),
+                accent_color = user_info.get('accent_color'),
+                verified = user_info.get('verified'),
+                flags = user_info.get('flags'),
+                premium_type = user_info.get('premium_type'),
+                server_nickname = user_guild_info.get('nick'),
+                server_avatar = user_guild_info.get('avatar'),
             )
 
             # Checking if they have permissions as mods

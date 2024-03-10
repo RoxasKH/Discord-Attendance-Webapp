@@ -58,7 +58,7 @@ class MongoDBRepository():
             data = data
         )
 
-        return response.json()['document']['roles']
+        return response.json().get('document').get('roles')
 
     def reset_database(self) -> Response:
         json_set = {'$set': {'attendance': AttendanceEntry().__dict__}}
@@ -87,7 +87,7 @@ class MongoDBRepository():
             data = data
         )
 
-        return response.json()['documents']
+        return response.json().get('documents')
     
     def update_user_attendance(
         self, 
