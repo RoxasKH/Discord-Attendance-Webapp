@@ -1,11 +1,11 @@
-import { SignalComponent } from './SignalComponent.js'
-import './Loader.js'
-import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
-import { getColor, getValue } from '../../utils/Colors.js'
-import { debounce, index, rgba2hex, arraysEqual } from '../../utils/Utils.js'
-import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js'
-import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js'
-import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
+import { SignalComponent } from './SignalComponent.js';
+import './Loader.js';
+import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js';
+import { getColor, getValue } from '../../utils/Colors.js';
+import { debounce, index, rgba2hex, arraysEqual } from '../../utils/Utils.js';
+import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js';
+import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js';
+import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js';
 
 class AttendanceTable extends SignalComponent {
 
@@ -278,7 +278,7 @@ class AttendanceTable extends SignalComponent {
     return attendanceArray;
   }
 
-  setPencilEventListener(data, month, pencil, currentArray, message) {
+  setPencilEventListener(userid, month, pencil, currentArray, message) {
 
     for (const cell of this.cells) {
       if(!cell.parentNode.disabled) {
@@ -290,7 +290,7 @@ class AttendanceTable extends SignalComponent {
 
           console.log("Row index: " + rowIndex + " | Column index: " + columnIndex);
           pencil.showOptions(event.clientX, event.clientY);
-          pencil.setColorsEventListener(data, month, this, rowIndex, columnIndex, currentArray, message);
+          pencil.setColorsEventListener(userid, month, this, rowIndex, columnIndex, currentArray, message);
         });
       }
       else {

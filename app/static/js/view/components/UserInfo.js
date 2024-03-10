@@ -1,4 +1,4 @@
-import { SignalComponent } from './SignalComponent.js'
+import { SignalComponent } from './SignalComponent.js';
 
 class User extends SignalComponent {
 
@@ -46,7 +46,7 @@ class User extends SignalComponent {
     if (discriminator != 0)
       this.#discriminator.append('#' + discriminator);
     this.#nickname.append(nick);
-    this.#join_time.append(data.joined_at);
+    this.#join_time.append(joined_at);
   }
 
   toggle() {

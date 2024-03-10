@@ -1,6 +1,6 @@
-import { SignalComponent } from './SignalComponent.js'
-import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
-import { DialogButtonData } from '../../model/DialogButtonData.js'
+import { SignalComponent } from './SignalComponent.js';
+import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js';
+import { DialogButtonData } from '../../model/DialogButtonData.js';
 
 class Dialog extends SignalComponent {
 

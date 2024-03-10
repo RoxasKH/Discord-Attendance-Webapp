@@ -1,7 +1,7 @@
-import { SignalComponent } from './SignalComponent.js'
-import './PencilTool.js'
-import './BrushTool.js'
-import '../../utils/Utils.js'
+import { SignalComponent } from './SignalComponent.js';
+import './PencilTool.js';
+import './BrushTool.js';
+import '../../utils/Utils.js';
 
 class Toolbar extends SignalComponent {
 

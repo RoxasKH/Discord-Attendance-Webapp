@@ -13,7 +13,7 @@ export class ToolbarController {
         table, 
         dialog, 
         message, 
-        user,
+        userid,
         refreshTable,
         initializeTable
     ) {
@@ -21,7 +21,7 @@ export class ToolbarController {
         this.table = table;
         this.dialog = dialog;
         this.message = message;
-        this.user = user;
+        this.userid = userid;
         this.#refreshTable = refreshTable;
         this.#initializeTable = initializeTable;
 
@@ -54,12 +54,12 @@ export class ToolbarController {
 		this.dialog.loader.show();
 
 		this.userAttendanceRepository.updateDatabaseEntry(
-			this.user, 
+			this.userid, 
 			this.toolbar.getMonth(),
 			emptyArray
 		)
 		.then(response => {
-			this.table.recolorTableRow(emptyArray, this.user.id, this.message);
+			this.table.recolorTableRow(emptyArray, this.userid, this.message);
 			this.dialog.loader.hide();
 			this.dialog.hide();
 		})

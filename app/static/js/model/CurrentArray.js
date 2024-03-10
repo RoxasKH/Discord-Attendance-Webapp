@@ -1,5 +1,5 @@
-import { rgba2hex } from '../utils/Utils.js'
-import { getValue } from '../utils/Colors.js'
+import { rgba2hex } from '../utils/Utils.js';
+import { getValue } from '../utils/Colors.js';
 
 export class CurrentArray {
   
