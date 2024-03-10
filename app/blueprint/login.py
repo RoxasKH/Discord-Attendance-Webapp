@@ -25,7 +25,7 @@ def login() -> Response:
 @bp.route('/callback')
 def callback() -> Union[str, Response]:
     if request.values.get('error'):
-        return request.values['error']
+        return request.values.get('error')
     login_service.set_session_token(request.url)
     return redirect(url_for('profile.me'))
 

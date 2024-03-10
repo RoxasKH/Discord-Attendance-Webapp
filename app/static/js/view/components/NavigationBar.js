@@ -1,5 +1,5 @@
-import { SignalComponent } from './SignalComponent.js'
-import './UserInfo.js'
+import { SignalComponent } from './SignalComponent.js';
+import './UserInfo.js';
 
 class NavigationBar extends SignalComponent {
 

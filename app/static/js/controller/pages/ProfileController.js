@@ -1,11 +1,11 @@
-import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
-import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js'
+import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js';
+import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js';
 import { CurrentArray } from '../../model/CurrentArray.js';
-import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js'
-import { DialogButtonData } from '../../model/DialogButtonData.js'
-import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js'
-import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js'
-import { findRoots } from '../../utils/Utils.js'
+import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.js';
+import { DialogButtonData } from '../../model/DialogButtonData.js';
+import { UserAttendanceRepository } from '../../repository/UserAttendanceRepository.js';
+import { UserAttendanceRepositoryError } from '../../repository/UserAttendanceRepositoryError.js';
+import { findRoots } from '../../utils/Utils.js';
 import { User } from '../../model/User.js';
 import { MessageController } from '../components/MessageController.js';
 import { NavBarController } from '../components/NavBarController.js';
@@ -19,6 +19,7 @@ export class ProfileController {
 
 	constructor(profile, userdata) {
 		this.user = new User(userdata);
+		this.avatar = this.user.server_avatar || this.user.avatar;
 
 		this.message = profile.message;
 		this.navbar = profile.navbar;
@@ -36,7 +37,7 @@ export class ProfileController {
 		this.userAttendanceRepository = new UserAttendanceRepository();
 
 		this.messageController = new MessageController(this.message);
-		this.navBarController = new NavBarController(this.navbar, this.user.avatar);
+		this.navBarController = new NavBarController(this.navbar, this.avatar);
 		this.userInfoController = new UserInfoController(this.userinfo, this.user, this.dialog);
 		this.tableController = new TableController(
 			this.table,
@@ -51,7 +52,7 @@ export class ProfileController {
 			this.table,
 			this.dialog,
 			this.message,
-			this.user,
+			this.user.id,
 			() => { this.tableController.refresh(); },
 			() => { this.tableController.init(); }
 		)
@@ -73,7 +74,7 @@ export class ProfileController {
 			this.table,
 			this.message,
 			this.customCursor,
-			this.user,
+			this.user.id,
 			this.currentArray,
 			() => { this.#resetDocumentListeners(); },
 			(array, rowId, toolMethod, cancelFunction) => {
@@ -205,7 +206,7 @@ export class ProfileController {
 	 	loader.show();
 
 		this.userAttendanceRepository.updateDatabaseEntry(
-			this.user,
+			this.user.id,
 			this.toolbar.getMonth(),
 			this.currentArray.array
 		)

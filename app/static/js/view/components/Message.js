@@ -1,5 +1,5 @@
-import { SignalComponent } from './SignalComponent.js'
-import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js'
+import { SignalComponent } from './SignalComponent.js';
+import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js';
 
 class Message extends SignalComponent {
 

@@ -12,7 +12,7 @@ export class PencilController {
         table,
         message,
         customCursor,
-        user,
+        userid,
         currentArray,
         resetDocumentListeners,
         resetTableRow,
@@ -24,7 +24,7 @@ export class PencilController {
         this.table = table;
         this.message = message;
         this.customCursor = customCursor;
-        this.user = user;
+        this.userid = userid;
         this.currentArray = currentArray;
         this.#resetDocumentListeners = resetDocumentListeners;
         this.#resetTableRow = resetTableRow;
@@ -43,11 +43,11 @@ export class PencilController {
 		this.table.initializeEventHandlers();
 		this.#resetDocumentListeners();
 		this.toolbar.setToolSelection(ToolTypeEnum.PENCIL);
-		this.table.setEditMode(this.toolbar, this.user.id);
+		this.table.setEditMode(this.toolbar, this.userid);
 		this.customCursor.set(this.pencil, ToolTypeEnum.PENCIL);
 		if(this.pencil.isChecked()) {
 			this.table.setPencilEventListener(
-                this.user, 
+                this.userid, 
                 this.toolbar.getMonth(), 
                 this.pencil, 
                 this.currentArray, 
@@ -57,10 +57,10 @@ export class PencilController {
 
 		this.brush.hideOptions();
 
-		if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.user.id))) && this.currentArray.array != null) {
+		if(!(arraysEqual(this.currentArray.array, this.currentArray.get(this.userid))) && this.currentArray.array != null) {
 			this.#resetTableRow(
 				this.currentArray.array, 
-				this.user.id, 
+				this.userid, 
 				undefined, // Basically, skip a parameter
 				() => {
 					let saveCurrentArrayState = this.currentArray.array;
