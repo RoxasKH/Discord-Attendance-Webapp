@@ -1,5 +1,5 @@
-import { SignalComponent } from '../components/SignalComponent.js'
-import '../components/Message.js'
+import { SignalComponent } from '../components/SignalComponent.js';
+import '../components/Message.js';
 
 class Login extends SignalComponent {
 

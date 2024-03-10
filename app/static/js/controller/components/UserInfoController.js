@@ -5,7 +5,8 @@ export class UserInfoController {
 
     constructor(userinfo, user, dialog) {
         this.userinfo = userinfo;
-        this.user = user;
+		this.user = user;
+		this.avatar = user.server_avatar || user.avatar;
         this.dialog = dialog;
 
         this.localStorageHelper = new LocalStorageHelper();
@@ -13,10 +14,10 @@ export class UserInfoController {
 
     init() {
         this.userinfo.setUserInfos(
-			this.user.avatar, 
+			this.avatar, 
 			this.user.username, 
 			this.user.discriminator, 
-			this.user.nick, 
+			this.user.server_nickname, 
 			this.user.joined_at
 		);
 		this.userinfo.logoutButton.addEventListener('click', () => {

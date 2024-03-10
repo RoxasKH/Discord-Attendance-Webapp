@@ -1,6 +1,6 @@
-import './Loader.js'
-import { Tool } from './Tool.js'
-import { getColor } from '../../utils/Colors.js'
+import './Loader.js';
+import { Tool } from './Tool.js';
+import { getColor } from '../../utils/Colors.js';
 
 class BrushTool extends Tool {
 

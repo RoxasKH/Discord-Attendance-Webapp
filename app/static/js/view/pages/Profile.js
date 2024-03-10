@@ -1,10 +1,10 @@
-import { SignalComponent } from '../components/SignalComponent.js'
-import '../components/Message.js'
-import '../components/NavigationBar.js'
-import '../components/Toolbar.js'
-import '../components/AttendanceTable.js'
-import '../components/Dialog.js'
-import '../components/CustomCursor.js'
+import { SignalComponent } from '../components/SignalComponent.js';
+import '../components/Message.js';
+import '../components/NavigationBar.js';
+import '../components/Toolbar.js';
+import '../components/AttendanceTable.js';
+import '../components/Dialog.js';
+import '../components/CustomCursor.js';
 
 class Profile extends SignalComponent {
 

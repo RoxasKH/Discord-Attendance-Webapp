@@ -1,4 +1,4 @@
-import { setConfig } from './utils/Config.js'
+import { setConfig } from './utils/Config.js';
 
 // Mirrored variables passed through jinja: currentPage, config, data
 const jinja = {

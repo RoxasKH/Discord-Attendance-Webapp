@@ -12,9 +12,11 @@ class DiscordRepository():
 
     _SERVER_ID = config.SERVER_ID
 
+    _API_VERSION = config.DISCORD_API_VERSION
     _BASE_URL = 'https://discordapp.com/api'
-    _AUTHORIZATION_URL = f'{_BASE_URL}/oauth2/authorize'
-    _TOKEN_URL = f'{_BASE_URL}/oauth2/token'
+    _VERSION_URL = f'{_BASE_URL}/v{_API_VERSION}' if _API_VERSION else _BASE_URL
+    _AUTHORIZATION_URL = f'{_VERSION_URL}/oauth2/authorize'
+    _TOKEN_URL = f'{_VERSION_URL}/oauth2/token'
 
     _OAUTH2_REDIRECT_URL = f'{config.HOST_APP_URL}/callback'
     _OAUTH2_CLIENT_ID = config.OAUTH2_CLIENT_ID
@@ -47,7 +49,7 @@ class DiscordRepository():
     def get_user_oauth_data(self) -> Dict[str, Any]:
         discord_oauth2_session = self.__make_session(token = session.get('oauth2_token'))
         return discord_oauth2_session.get(
-            self._BASE_URL + '/users/@me/guilds/' + self._SERVER_ID + '/member'
+            self._VERSION_URL + '/users/@me/guilds/' + self._SERVER_ID + '/member'
         ).json()
 
     def get_token(self, response_url: str) -> str:
@@ -81,7 +83,7 @@ class DiscordRepository():
         data = {
             'client_id': self._OAUTH2_CLIENT_ID,
             'client_secret': self._OAUTH2_CLIENT_SECRET,
-            'token': session['oauth2_token']['access_token']
+            'token': session.get('oauth2_token').get('access_token')
         }
 
         return requests.post(

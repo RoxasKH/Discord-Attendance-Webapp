@@ -1,23 +1,21 @@
-from dateutil import parser
 from dataclasses import dataclass
 from typing import Optional
 
-from app.util.enums.image_extension_enum import ImageExtensionEnum
-    
 @dataclass
-class User:
-
-    _AVATAR_BASE_URL = 'https://cdn.discordapp.com/avatars/'
-
-    joined_at: str
-    nick: Optional[str]
-    discriminator: int
+class User(): 
     id: int
     username: str
+    discriminator: int
+    display_name: Optional[str]
     avatar: Optional[str]
+    joined_at: str
     roles: list[str]
-
-    def __post_init__(self):
-        # Converting joined datetime from ISO8601 to normal datetime
-        self.joined_at = parser.parse(self.joined_at)
-        self.avatar = f'{self._AVATAR_BASE_URL}/{self.id}/{self.avatar}.{ImageExtensionEnum.PNG}'
+    is_bot: Optional[bool] = None
+    banner: Optional[str] = None
+    locale: Optional[str] = None
+    accent_color: Optional[int] = None
+    verified: Optional[bool] = None
+    flags: Optional[int] = None
+    premium_type: Optional[int] = None
+    server_nickname: Optional[str] = None
+    server_avatar: Optional[str] = None

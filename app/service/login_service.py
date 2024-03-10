@@ -8,7 +8,7 @@ class LoginService():
     repository = DiscordRepository()
     
     def logout(self):
-        print(session['oauth2_token']['access_token'])
+        print(session.get('oauth2_token').get('access_token'))
 
         response = self.repository.revoke_token()
         
