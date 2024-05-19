@@ -20,8 +20,8 @@ def attendance_table() -> list[Dict[str, Any]]:
     return api_service.get_attendance()
 
 
-@bp.route('/table/<string:username>', methods = ['PUT'])
-def table(username: str) -> Dict[str, Any]:
+@bp.route('/table/<string:id>', methods = ['PUT'])
+def table(id: str) -> Dict[str, Any]:
 
     user_id = request.headers.get('Authorization-ID')
 
@@ -37,7 +37,6 @@ def table(username: str) -> Dict[str, Any]:
 
             return api_service.update_user_attendance(
                 user_id = user_id,
-                username = username,
                 month = month,
                 attendance_array = attendance_array
             )

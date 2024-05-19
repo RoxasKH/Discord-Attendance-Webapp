@@ -3,37 +3,62 @@ import './UserInfo.js';
 
 class NavigationBar extends SignalComponent {
 
+  #userinfoState = null;
+
   user = null;
   userinfo = null;
-  user_avatar = null;
+  userAvatar = null;
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+
+    const store = this.getStore();
+    this.#userinfoState = store.userinfoState;
+    this.#userinfoState.addObserver(this);
   }
 
-  connectedCallback() {
-    const htmlPath = this.TEMPLATES_PATH + 'components/navigation-bar.html';
+  async connectedCallback() {
+    try {
+      const htmlPath = this.TEMPLATES_PATH + 'components/navigation-bar.html';
+      const response = await fetch(htmlPath);
+      const html = await response.text();
 
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(html => {
-        this.shadowRoot.innerHTML = html;
+      this.shadowRoot.innerHTML = html;
 
-        this.user = this.shadowRoot.querySelector('#user');
-        this.userinfo = this.shadowRoot.querySelector('user-info');
-        this.user_avatar = this.shadowRoot.querySelector('.avatar');
+      this.user = this.shadowRoot.querySelector('#user');
+      this.userinfo = this.shadowRoot.querySelector('user-info');
+      this.userAvatar = this.shadowRoot.querySelector('.avatar');
 
-        this.registerChildComponents([this.userinfo]);
+      await this.registerChildComponents([this.userinfo]);
 
-      })
-      .catch(error => console.error('Error loading HTML file:', error));
+      this.#init();
+    }
+    catch(error) {
+      console.error('Error loading HTML file:', error);
+    }
   }
 
-  disconnectedCallback() {}
+  #init() {
+    const {userAvatar} = this;
+    
+		userAvatar.addEventListener('click', () => {
+			userAvatar.classList.add('bounce-in');
+			userAvatar.addEventListener('animationend', () => {
+				userAvatar.classList.remove('bounce-in');
+			});
+			this.#userinfoState.toggle();
+		});
+  }
 
-  setUserAvatar(avatar) {
-    this.user_avatar.setAttribute('src', avatar);
+  update(state) {
+    const { user } = state;
+    const avatar = user.server_avatar || user.avatar;
+    this.#setUserAvatar(avatar);
+  }
+
+  #setUserAvatar(avatar) {
+    this.userAvatar.setAttribute('src', avatar);
   }
 
 }

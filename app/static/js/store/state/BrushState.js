@@ -1,14 +1,6 @@
 export class BrushState {
 
-    selectedColor = null;
+    selectedColor = '#fff';
     loading = false;
-
-    constructor(
-        selectedColor,
-        loading
-    ) {
-        this.selectedColor = selectedColor;
-        this.loading = loading;
-    }
 
 }

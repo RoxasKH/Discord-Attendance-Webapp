@@ -70,14 +70,12 @@ class ApiService():
     def update_user_attendance(
         self, 
         user_id: str, 
-        username: str, 
         month: str, 
         attendance_array: list[int]
     ) -> Dict[str, Any]:
     
         response = self.repository.update_user_attendance(
             user_id = user_id,
-            username = username,
             month = month,
             attendance_array = attendance_array
         )

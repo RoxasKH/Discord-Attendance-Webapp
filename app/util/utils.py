@@ -11,7 +11,7 @@ def render_page(page, data: Optional[Dict[str, Any]] = None) -> Union[str, Respo
     FRONTEND_CONFIG = {
         'HOST_APP_URL': config.HOST_APP_URL,
         'DISCORD_API_VERSION': config.DISCORD_API_VERSION,
-        'OAUTH2_TOKEN': session.get('oauth2_token').get('access_token')
+        'OAUTH2_TOKEN': session.get('oauth2_token').get('access_token') if session.get('oauth2_token') else None
     }
 
     return render_template(

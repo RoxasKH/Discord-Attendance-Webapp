@@ -3,67 +3,82 @@ import { MessageTypeEnum } from '../../utils/enums/MessageTypeEnum.js';
 
 class Message extends SignalComponent {
 
-  close_button = null;
-
   #timer = null;
   #message_container = null;
   #message = null;
+  #close_button = null;
+
+  #messageState = null;
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+
+    const store = this.getStore();
+    this.#messageState = store.messageState;
+    this.#messageState.addObserver(this);
   }
 
-  connectedCallback() {
-    const htmlPath = this.TEMPLATES_PATH + 'components/message.html';
+  async connectedCallback() {
+    try {
+      const htmlPath = this.TEMPLATES_PATH + 'components/message.html';
 
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(html => {
-        this.shadowRoot.innerHTML = html;
-
-        this.#message_container = this.shadowRoot.querySelector('#message-container');
-        this.#message = this.shadowRoot.querySelector('#message');
-
-        this.close_button = this.shadowRoot.querySelector('#close');
-
-        this.registerChildComponents();
-      })
-      .catch(error => console.error('Error loading HTML file:', error));
+      const response = await fetch(htmlPath);
+      const html = await response.text();
+      this.shadowRoot.innerHTML = html;
+  
+      this.#message_container = this.shadowRoot.querySelector('#message-container');
+      this.#message = this.shadowRoot.querySelector('#message');
+      this.#close_button = this.shadowRoot.querySelector('#close');
+  
+      await this.registerChildComponents();
+  
+      this.#init();
+    }
+    catch(error) {
+      console.error('Error loading HTML file:', error);
+    }
   }
 
-  disconnectedCallback() {}
+  #init() {
+    this.#close_button.addEventListener('click', () => {
+      this.#messageState.hide();
+    });
+  }
 
+  update(state) {
 
-  show(message, typeClass) {
+    const { message, type, show } = state;
 
     this.#clearTimer();
 
-    if(this.#message)
-      this.#message.innerHTML = message;
+    this.#message.innerHTML = message;
 
     for (const type of Object.keys(MessageTypeEnum)) {
-      if (MessageTypeEnum[type] instanceof MessageTypeEnum) {
-        this.#message_container.classList.remove(MessageTypeEnum[type].name);
-      }
+      this.#message_container.classList.remove(MessageTypeEnum[type].name);
     }
 
-    if (typeClass instanceof MessageTypeEnum)
-      this.#message_container.classList.add(typeClass.name);
+    this.#message_container.classList.add(type.name);
+
+    show ? this.#show(type) : this.#close();
+    
+  }
+
+  #show(typeClass) {
 
     this.#message_container.classList.add('fadeIn');
     this.#message_container.classList.remove('fadeOut');
 
-    if(typeClass == MessageTypeEnum.SUCCESS) {
-      this.#timer = setTimeout(() => 
-        this.close(), 
+    if(typeClass === MessageTypeEnum.SUCCESS) {
+      this.#timer = setTimeout(() =>
+        this.#messageState.hide(),
         4000
       );
     }
 
   }
 
-  close() {
+  #close() {
     this.#clearTimer();
     this.#message_container.classList.remove('fadeIn');
     this.#message_container.classList.add('fadeOut');
@@ -72,17 +87,7 @@ class Message extends SignalComponent {
   #clearTimer() {
     if(this.#timer) {
       clearTimeout(this.#timer);
-    this.#timer = null;
-    }
-  }
-
-  getMessage() {
-    return this.#message.textContent;
-  }
-
-  isOfType(typeClass) {
-    if (typeClass instanceof MessageTypeEnum) {
-      return this.#message_container.classList.contains(typeClass.name);
+      this.#timer = null;
     }
   }
 

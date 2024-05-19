@@ -3,72 +3,74 @@
 
 .container {
   height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
 }
 
-table {
+#attendance-table {
   max-height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-tr:first-child, tr:nth-child(2) {
-  z-index: 1;
-  background-color: var(--box-bg);
-}
-
-tr:first-child {
-  position: sticky;
-  top: 0;
-}
-
-tr:nth-child(2) {
-  position: sticky;
-  top: 30px;
-  box-shadow: 0 5px 1px 0 rgba(0,0,0,0.2);
-}
-
-table {
+  overflow: hidden;
   font-size: 15px;
   display: block;
-  border-spacing: 0;
-  border-collapse: separate;
-  border-spacing: 5px;
 }
 
-tr, th, td {
+#other-users {
+  height: 90%;
+  display: block;
+  overflow-y: scroll;
+  flex: 1;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 5px;
+  padding: 0 5px;
+  padding-bottom: 5px;
+}
+
+.row > .cell, .row > .header:not(:first-child) {
+  flex: 1;
+  text-align: center;
+}
+
+.row > .header:first-child, .empty-header {
+  width: 100px;
+}
+
+.row, .header, .cell {
   transition: 0.2s;
 }
 
-th, td {
+.header, .cell {
   padding: 5px 0;
   border-radius: 10%;
-  background-color: inherit;
-  vertical-align: top;
   box-sizing: border-box; 
 }
 
-td:hover {
+.cell:hover {
   transform: scale(130%);
   box-shadow: 0 0 2px 2px rgba(0,0,0,0.2);
 }
 
-td:active {
+.cell:active {
   box-shadow: 0 0 2px 2px rgba(255,255,255,0.5);
 }
 
-th {
+.header {
   font-size: 15px;
 }
 
-tr:first-child th:not(:first-child):hover {
+.row:first-child .header:not(:first-child):hover {
   background-color: var(--color-highlight);
   border-radius: 20%;
 }
 
-tr:first-child th {
+#attendance-table > .row:first-child .header {
   font-family: monospace, monospace;
-}
-
-tr:not(:first-child) th {
-  padding-right: 20px;
+  font-weight: bold;
 }

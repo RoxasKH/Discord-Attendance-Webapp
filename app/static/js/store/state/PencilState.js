@@ -2,7 +2,10 @@ export class PencilState {
 
     loading = false;
     showOptions = false;
-
-    constructor() {}
+    optionsPosition = {
+        x: 0,
+        y: 0,
+    };
+    targetCellIndex = 0;
 
 }
