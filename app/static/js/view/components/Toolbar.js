@@ -127,10 +127,6 @@ class Toolbar extends SignalComponent {
   }
 
 
-  /*getMonth() {
-    return this.monthCombobox.value.toLowerCase();
-  }*/
-
   setMonth(month) {
     this.monthCombobox.value = month;
   }
@@ -199,15 +195,6 @@ class Toolbar extends SignalComponent {
     }
 	
 	}
-
-  /*isToolSelected() { 
-    let isToolSelected = false;
-    for (const tool of this.tools) {
-      if(tool.isChecked())
-        isToolSelected = true;
-    }
-    return isToolSelected;
-  }*/
 
 }
 

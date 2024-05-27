@@ -50,16 +50,10 @@ class AttendanceTable extends SignalComponent {
       this.#loader = this.shadowRoot.querySelector('loader-component');
 
       await this.registerChildComponents([this.#loader]);
-
-      this.#init();
     }
     catch (error) {
       console.error('Error loading HTML file:', error);
     }
-  }
-
-  #init() {
-    this.#attendanceTableState.setLoading(true);
   }
 
   update() {
@@ -77,11 +71,17 @@ class AttendanceTable extends SignalComponent {
 
     const {selectedColor} = this.#brushState.getState();
     
-    loading ? this.#loader.show() : this.#loader.hide();
+    if (loading) {
+      this.#loader.show();
+      this.#hideTable();
+     } else {
+      this.#loader.hide();
+      this.#showTable();
+     }
 
     if (editableAttendance && editableAttendance.length) {
 
-      let daysNumber = editableAttendance[0].attendance[month].length;
+      const daysNumber = editableAttendance[0].attendance[month].length;
       this.#generateDaysHeaders(daysNumber);
 
       for (const user of editableAttendance) {
@@ -94,7 +94,7 @@ class AttendanceTable extends SignalComponent {
       this.#initializeEventHandlers();
 
       if (selectedTool) {
-        this.#setEditMode(user.id)
+        this.#setEditMode(user.id);
         switch (tool) {
           case ToolTypeEnum.BRUSH:
             this.#setBrushEventListener(user.id, selectedColor, editableAttendance, month);
@@ -135,7 +135,7 @@ class AttendanceTable extends SignalComponent {
       this.#table.append(daysHeaders);
     }  
 
-    let previousDaysNumber = daysHeaders.querySelectorAll('.header').length
+    const previousDaysNumber = daysHeaders.querySelectorAll('.header').length;
 
     let count = Math.abs(daysNumber - previousDaysNumber);
 
@@ -177,20 +177,20 @@ class AttendanceTable extends SignalComponent {
         otherUsers.append(userEntry);
       }
 
-      let entryHeader = document.createElement('div');
+      const entryHeader = document.createElement('div');
       entryHeader.classList.add('header');
       entryHeader.append(user.discord_user_name);
       userEntry.append(entryHeader);
     }
 
-    let previousDaysNumber = userEntry.querySelectorAll('.cell').length;
-    let daysNumber = user.attendance[month].length;
+    const previousDaysNumber = userEntry.querySelectorAll('.cell').length;
+    const daysNumber = user.attendance[month].length;
 
     let count = Math.abs(daysNumber - previousDaysNumber);
 
     if (daysNumber > previousDaysNumber) {
       while (count--) {
-        let entryCell = document.createElement('div');
+        const entryCell = document.createElement('div');
         entryCell.classList.add('cell');
         userEntry.append(entryCell);
       }
@@ -200,7 +200,7 @@ class AttendanceTable extends SignalComponent {
       }
     }
 
-    let entryCells = userEntry.querySelectorAll('.cell');
+    const entryCells = userEntry.querySelectorAll('.cell');
 
     for (const [index, value] of user.attendance[month].entries()) {
       entryCells[index].setAttribute('value', value);
@@ -215,7 +215,6 @@ class AttendanceTable extends SignalComponent {
 
     for (const cell of this.cells) {
       this.#listenerHandler.removeAllListeners(cell, 'click');
-      this.#listenerHandler.removeAllListeners(cell, 'pointerdown');
     }
 
     this.#listenerHandler.removeAllListeners(this.#table, 'pointerdown');
@@ -243,8 +242,7 @@ class AttendanceTable extends SignalComponent {
     const [headers_row, ...rows] = this.#rows;
 
     for (const row of rows) {
-      console.log('ID: '+id+', rowID:'+row.id);
-      if (row.id != id) {
+      if (row.id !== id) {
         row.disabled = true;
         row.style.filter = 'brightness(70%)';
         for (const cell of row.querySelectorAll('.cell')) {
@@ -267,9 +265,9 @@ class AttendanceTable extends SignalComponent {
     for (const cell of this.cells) {
       if(!cell.parentNode.disabled) {
         this.#listenerHandler.addListener(cell, 'click', (event) => {
-          let row = cell.closest('.row');
-          let rowCells = row.querySelectorAll('.cell');
-          let cellIndex = Array.from(rowCells).indexOf(cell);
+          const row = cell.closest('.row');
+          const rowCells = row.querySelectorAll('.cell');
+          const cellIndex = Array.from(rowCells).indexOf(cell);
           
           this.#pencilState.setOptionsPosition(event.clientX, event.clientY);
           this.#pencilState.setTargetCellIndex(cellIndex);
@@ -291,9 +289,9 @@ class AttendanceTable extends SignalComponent {
     const newAttendance = usersAttendance;
 
     const brushCell = (cell) => {
-      let row = cell.closest('.row');
-      let rowCells = row.querySelectorAll('.cell');
-      let cellIndex = Array.from(rowCells).indexOf(cell);
+      const row = cell.closest('.row');
+      const rowCells = row.querySelectorAll('.cell');
+      const cellIndex = Array.from(rowCells).indexOf(cell);
 
       newAttendance.find(entry => entry.discord_user_id === id).attendance[month][cellIndex] = getValue(color);
       cell.style.backgroundColor = color;
@@ -305,7 +303,7 @@ class AttendanceTable extends SignalComponent {
 
     this.#listenerHandler.addListener(this.#table, 'pointerdown', (event) => {
       if (event.target.classList.contains('cell') && !event.target.parentNode.disabled) {
-        let cell = event.target;
+        const cell = event.target;
         brushCell(cell);
         this.#attendanceTableState.setEditableAttendance(newAttendance);
       }
@@ -317,7 +315,7 @@ class AttendanceTable extends SignalComponent {
       // 1 refers to the primary mouse button, usually left clic, or touch pressing
       if(event.buttons === 1) {
         if (event.target.classList.contains('cell') && !event.target.parentNode.disabled) {
-          let cell = event.target;
+          const cell = event.target;
           brushCell(cell);
         }
       }
@@ -327,6 +325,16 @@ class AttendanceTable extends SignalComponent {
       this.#attendanceTableState.setEditableAttendance(newAttendance);
     });
 
+  }
+
+  #hideTable() {
+    this.#table.classList.remove('show');
+    this.#table.classList.add('hide');
+  }
+
+  #showTable() {
+    this.#table.classList.remove('hide');
+    this.#table.classList.add('show');
   }
 
 }
