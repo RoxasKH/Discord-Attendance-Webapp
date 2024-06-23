@@ -1,6 +1,7 @@
 import { SignalComponent } from './SignalComponent.js';
 import './PencilTool.js';
 import './BrushTool.js';
+import './Select.js';
 import '../../utils/Utils.js';
 import { ToolTypeEnum } from '../../utils/enums/ToolTypeEnum.js';
 import { DialogButtonData } from '../../model/DialogButtonData.js';
@@ -41,8 +42,6 @@ class Toolbar extends SignalComponent {
     this.#messageState = store.messageState;
     this.#toolbarState.addObserver(this);
 
-    //
-
     const date = new Date();
     for(let month = 0; month < 12; ++month) {
        date.setMonth(month);
@@ -59,7 +58,7 @@ class Toolbar extends SignalComponent {
       const html = await response.text();
       this.shadowRoot.innerHTML = html;
 
-      this.monthCombobox = this.shadowRoot.querySelector('#month');
+      this.monthCombobox = this.shadowRoot.querySelector('select-component');
 
       this.reloadButton = this.shadowRoot.querySelector('#reload');
       this.clearButton = this.shadowRoot.querySelector('#clear');
@@ -68,7 +67,7 @@ class Toolbar extends SignalComponent {
       this.pencil = this.shadowRoot.querySelector('pencil-tool');
       this.brush = this.shadowRoot.querySelector('brush-tool');
 
-      await this.registerChildComponents([this.brush, this.pencil]);
+      await this.registerChildComponents([this.brush, this.pencil, this.monthCombobox]);
 
       this.#init();
     }
@@ -79,9 +78,14 @@ class Toolbar extends SignalComponent {
   }
 
   #init() {
-    this.initializeComboBox(this.#months);
-
-    this.#toolbarState.setMonth(this.current_month);
+    this.monthCombobox.init(
+      'Month:',
+      this.#months,
+      this.current_month,
+      (value) => {
+        this.#toolbarState.setMonth(value);
+      }
+    );
 
     this.reloadButton.addEventListener('click', () => {
       const {user} = this.#userinfoState.getState();
@@ -122,7 +126,7 @@ class Toolbar extends SignalComponent {
       this.setToolSelection();
     }
 
-    this.setMonth(month);
+    //this.setMonth(month);
 
   }
 
