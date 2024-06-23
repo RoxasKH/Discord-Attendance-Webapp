@@ -126,35 +126,8 @@ class Toolbar extends SignalComponent {
       this.setToolSelection();
     }
 
-    //this.setMonth(month);
-
   }
 
-
-  setMonth(month) {
-    this.monthCombobox.value = month;
-  }
-
-  initializeComboBox(list) {
-    for (let i = 0; i < list.length; i++) {
-      this.monthCombobox.appendChild(this.#generateOption(list[i]));
-    }
-
-    console.log('initializing combobox');
-    console.log(list);
-
-    this.setMonth(this.current_month);
-  }
-
-  #generateOption(option_string) {
-    let option = document.createElement('option');
-    option.setAttribute('value', option_string);
-    option.append(option_string.capitalize());
-    option.addEventListener('click', () => {
-      this.#toolbarState.setMonth(option_string);
-    });
-    return option;
-  }
 
   setToolSelection(toolType = '') {
     for (const tool of this.tools) {
