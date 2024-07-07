@@ -92,7 +92,6 @@ class MongoDBRepository():
     def update_user_attendance(
         self, 
         user_id: str, 
-        username: str, 
         month: str, 
         attendance_array: list[int]
     ) -> Response:
@@ -101,10 +100,7 @@ class MongoDBRepository():
 
         data = self.__make_request_data(
             collection = self._ATTENDANCE_COLLECTION, 
-            filters = {
-                'discord_user_id': user_id, 
-                'discord_user_name': username
-            },
+            filters = {'discord_user_id': user_id},
             update = json_set
         )
 

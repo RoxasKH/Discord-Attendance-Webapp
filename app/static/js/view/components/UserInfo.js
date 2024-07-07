@@ -1,6 +1,12 @@
+import { DialogButtonData } from '../../model/DialogButtonData.js';
+import { DialogState } from '../../store/state/DialogState.js';
+import { LocalStorageHelper } from '../../utils/LocalStorageHelper.js';
 import { SignalComponent } from './SignalComponent.js';
 
 class User extends SignalComponent {
+
+  #userinfoState = null;
+  #dialogState = null;
 
   #container = null;
   #name = null;
@@ -14,51 +20,89 @@ class User extends SignalComponent {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+
+    const store = this.getStore();
+    this.#userinfoState = store.userinfoState;
+    this.#dialogState = store.dialogState;
+    this.#userinfoState.addObserver(this);
+
+    this.localStorageHelper = new LocalStorageHelper();
   }
 
-  connectedCallback() {
-    const htmlPath = this.TEMPLATES_PATH + 'components/user-info.html';
+  async connectedCallback() {
+    try {
+      const htmlPath = this.TEMPLATES_PATH + 'components/user-info.html';
 
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(html => {
-        this.shadowRoot.innerHTML = html;
+      const response = await fetch(htmlPath);
+      const html = await response.text();
+      this.shadowRoot.innerHTML = html;
 
-        this.#container = this.shadowRoot.querySelector('#userinfo');
+      this.#container = this.shadowRoot.querySelector('#userinfo');
 
-        this.#name = this.shadowRoot.querySelector('#name');
-        this.#discriminator = this.shadowRoot.querySelector('#discriminator');
-        this.#nickname = this.shadowRoot.querySelector('#nickname');
-        this.#join_time = this.shadowRoot.querySelector('#joined_at');
-        this.#avatar = this.shadowRoot.querySelector('.avatar');
-        this.logoutButton = this.shadowRoot.querySelector('#logout');
+      this.#name = this.shadowRoot.querySelector('#name');
+      this.#discriminator = this.shadowRoot.querySelector('#discriminator');
+      this.#nickname = this.shadowRoot.querySelector('#nickname');
+      this.#join_time = this.shadowRoot.querySelector('#joined_at');
+      this.#avatar = this.shadowRoot.querySelector('.avatar');
+      this.logoutButton = this.shadowRoot.querySelector('#logout');
 
-        this.registerChildComponents();
-      })
-      .catch(error => console.error('Error loading HTML file:', error));
+      await this.registerChildComponents();
+
+    }
+    catch(error) {
+      console.error('Error loading HTML file:', error);
+    }
+
   }
 
-  disconnectedCallback() {}
+  update(state) {
 
-  setUserInfos(avatar, username, discriminator = 0, nick, joined_at) {
+    const {show, user} = state;
+
+    this.#setUserInfos(
+      user.server_avatar || user.avatar, 
+      user.username, 
+      user.discriminator, 
+      user.server_nickname, 
+      user.joined_at
+    );
+    this.logoutButton.addEventListener('click', () => {
+      // Bind is needed to bind the right context where to call the function
+      // Alternative option is to pass an anonymous function
+      let logoutButton = new DialogButtonData('Logout', () => { this.#logoutRedirect(); }, true);
+      this.#dialogState.setMessage('Are you sure you want to log out from the application?');
+      this.#dialogState.setButtons([logoutButton]);
+      this.#dialogState.show();
+    });
+
+    show ? this.#open() : this.#close();
+
+  }
+
+  #setUserInfos(avatar, username, discriminator = 0, nick, joined_at) {
     this.#avatar.setAttribute('src', avatar);
-    this.#name.append(username);
-    if (discriminator != 0)
-      this.#discriminator.append('#' + discriminator);
-    this.#nickname.append(nick);
-    this.#join_time.append(joined_at);
+    this.#name.textContent = username;
+    if (Number(discriminator) !== 0)
+      this.#discriminator.textContent = '#' + discriminator;
+    this.#nickname.textContent = nick;
+    this.#join_time.textContent = joined_at;
   }
 
-  toggle() {
+  #open() {
     this.#container.classList.remove('hide');
-    this.#container.classList.toggle('bounce-out');
-    this.#container.classList.toggle('bounce-in');
+    this.#container.classList.remove('bounce-out');
+    this.#container.classList.add('bounce-in');
   }
 
-  close() {
+  #close() {
     this.#container.classList.add('bounce-out');
     this.#container.classList.remove('bounce-in');
   }
+
+  #logoutRedirect() {
+		this.localStorageHelper.setBoolean('logged_in', false);
+		window.location.replace('/logout'); // Redirect to the logout endpoint
+	}
 
 }
 

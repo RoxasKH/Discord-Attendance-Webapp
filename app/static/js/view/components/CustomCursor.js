@@ -3,55 +3,60 @@ import { ListenerHandlerSingleton } from '../../utils/ListenerHandlerSingleton.j
 
 class CustomCursor extends SignalComponent {
 
-  #dialogScreen = null;
+  #toolbarState = null;
 
   listenerHandler = ListenerHandlerSingleton.getInstance();
 
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+
+    const store = this.getStore();
+    this.#toolbarState = store.toolbarState;
+    this.#toolbarState.addObserver(this);
   }
 
-  connectedCallback() {
-    const htmlPath = this.TEMPLATES_PATH + 'components/custom-cursor.html';
+  async connectedCallback() {
+    try {
+      const htmlPath = this.TEMPLATES_PATH + 'components/custom-cursor.html';
 
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(html => {
-        this.shadowRoot.innerHTML = html;
+      const response = await fetch(htmlPath);
+      const html = await response.text();
+      this.shadowRoot.innerHTML = html;
 
-        this.#dialogScreen = this.shadowRoot.querySelector('#dialog-screen');
+      await this.registerChildComponents();
 
-        this.registerChildComponents();
-      })
-      .catch(error => console.error('Error loading HTML file:', error));
+    } catch (error) {
+      console.error('Error loading HTML file:', error);
+    }
   }
 
-  disconnectedCallback() {}
+  update(state) {
+    const {selected, tool} = state;
+    selected ? this.set(tool) : this.reset();
+  }
 
 
-  set(tool, toolType) {
-    
+  set(tool) {
+
     this.reset();
 
-    let cursor = this.shadowRoot.querySelector('.cursor.' + toolType.name);
+    let cursor = this.shadowRoot.querySelector('.cursor.' + tool.name);
 
-    if(tool.isChecked()) {
-      document.body.style.cursor = 'none';
-      cursor.classList.remove('hide');
+    document.body.style.cursor = 'none';
+    cursor.classList.remove('hide');
 
-      this.listenerHandler.addListener(document.body, 'mousemove', (event) => {
-        const mouseY = event.clientY;
-        const mouseX = event.clientX;
+    this.listenerHandler.addListener(document.body, 'pointermove', (event) => {
+      const mouseY = event.clientY;
+      const mouseX = event.clientX;
 
-        cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      });
-    }
+      cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+    });
 
   }
 
   reset() {
-    this.listenerHandler.removeAllListeners(document.body, 'mousemove');
+    this.listenerHandler.removeAllListeners(document.body, 'pointermove');
     for (const cursor of this.shadowRoot.querySelectorAll('.cursor')) {
       cursor.classList.add('hide');
     }

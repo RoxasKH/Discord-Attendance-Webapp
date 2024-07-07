@@ -1,14 +1,19 @@
+import { Store } from "../../store/Store.js";
+
 export class SignalComponent extends HTMLElement {
+
+  TEMPLATES_PATH = '../../templates/';
+  childrenPromises = [];
 
   constructor() {
     super();
-
-    this.TEMPLATES_PATH = '../../templates/';
-
-    this.childrenPromises = [];
   }
 
-  registerChildComponents(components = []) {
+  getStore() {
+    return new Store();
+  }
+
+  async registerChildComponents(components = []) {
     for (const component of components) {
       let promise = new Promise((resolve) => {
         component.addEventListener('component-initialized', () => {
@@ -19,7 +24,7 @@ export class SignalComponent extends HTMLElement {
       this.childrenPromises.push(promise);
     }
 
-    Promise.all(this.childrenPromises)
+    return Promise.all(this.childrenPromises)
       .then((results) => {
         // All events have been fired, and their promises have resolved
         for (const result of results) { console.log(result); }

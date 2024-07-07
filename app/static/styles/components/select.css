@@ -1,0 +1,76 @@
+:host {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+* {
+    transition: 0.2s;
+}
+
+.select-container {
+    position: relative;
+
+    font-size: 15px;
+}
+
+.select-container:hover > .select {
+    border-color: var(--color-highlight);
+}
+.select-container:hover .arrow {
+    border-top-color: var(--color-highlight);
+}
+
+.select {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    cursor: pointer;
+    min-width: 150px;
+    border: 2px solid var(--default-color);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+/* Arrow */
+.arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid var(--default-color);
+}
+
+.options {
+    width: 100%;
+    max-height: 70vh;
+    visibility: collapse;
+    opacity: 0;
+    position: absolute;
+    bottom: 80%;
+    background-color: var(--box-bg);
+    padding: 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 2px solid var(--default-color);
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.option {
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.option:hover {
+    background-color: var(--color-highlight);
+}
+
+.disabled {
+    pointer-events: none;
+    filter: brightness(60%);
+}

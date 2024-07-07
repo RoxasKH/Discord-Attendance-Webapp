@@ -30,59 +30,6 @@
   flex-basis: 100%; /* Makes the separator take up the remaining space */
 }
 
-/* Month dropdown */
-
-select {
-  /* Reset */
-  appearance: none;
-  outline: none;
-
-  /* Styling */
-  color: inherit;
-  background-color: inherit;
-  border: none;
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: pointer;
-  line-height: inherit;
-  width: 100%;
-}
-
-.select {
-  min-width: 150px;
-  background-color: inherit;
-  color: inherit;
-  border: 2px solid var(--default-color);
-  border-radius: 10px;
-  display: inline-block;
-  font: inherit;
-  font-size: 15px;
-  padding: 10px;
-  margin-left: 20px;
-  display: grid;
-  grid-template-areas: "select";
-  align-items: center;
-}
-
-.select::after {
-  content: "";
-  width: 0.8em;
-  height: 0.5em;
-  background-color: var(--default-color);
-  clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-  justify-self: end;
-}
-
-select, .select::after {
-  grid-area: select;
-}
-
-.select:focus-within {
-  border-color: var(--color-highlight); 
-  transition: 0.2s;
-}
-
 .fade-in-up {
   animation: fade-in-up 0.5s ease;
 }

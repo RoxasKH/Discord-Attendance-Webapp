@@ -9,23 +9,22 @@ class Loader extends SignalComponent {
     this.attachShadow({ mode: 'open' });
   }
 
-  connectedCallback() {
-    const htmlPath = this.TEMPLATES_PATH + 'components/loader.html';
+  async connectedCallback() {
+    try {
 
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(html => {
-        this.shadowRoot.innerHTML = html;
+      const htmlPath = this.TEMPLATES_PATH + 'components/loader.html';
+      const response = await fetch(htmlPath);
+      const html = await response.text();
+      this.shadowRoot.innerHTML = html;
 
-        this.#loader = this.shadowRoot.querySelector('.loader');
+      this.#loader = this.shadowRoot.querySelector('.loader');
 
-        this.registerChildComponents();
-      })
-      .catch(error => console.error('Error loading HTML file:', error));
+      await this.registerChildComponents();
+
+    } catch (error) {
+      console.error('Error loading HTML file:', error);
+    }
   }
-
-  disconnectedCallback() {}
-
 
   show() { this.#loader.style.display = 'inline-block'; }
 
